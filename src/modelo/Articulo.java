@@ -1,0 +1,66 @@
+package modelo;
+
+public class Articulo {
+    private String codigoProducto;
+    private String descripcion;
+    private double pvp;
+    private double gastosDeEnvio;
+    private int tiempoDePreparacion;
+
+    public Articulo(String codigoProducto, String descripcion, double pvp, double gastosDeEnvio, int tiempoDePreparacion) {
+        this.codigoProducto = codigoProducto;
+        this.descripcion = descripcion;
+        this.pvp = pvp;
+        this.gastosDeEnvio = gastosDeEnvio;
+        this.tiempoDePreparacion = tiempoDePreparacion;
+    }
+
+    public String getCodigoProducto() {
+        return codigoProducto;
+    }
+
+    public void setCodigoProducto(String codigoProducto) {
+        this.codigoProducto = codigoProducto;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public double getPvp() {
+        return pvp;
+    }
+
+    public void setPvp(double pvp) {
+        this.pvp = pvp;
+    }
+
+    public double getGastosDeEnvio() {
+        return gastosDeEnvio;
+    }
+
+    public void setGastosDeEnvio(double gastosDeEnvio) {
+        this.gastosDeEnvio = gastosDeEnvio;
+    }
+
+    public int getTiempoDePreparacion() {
+        return tiempoDePreparacion;
+    }
+
+    public void setTiempoDePreparacion(int tiempoDePreparacion) {
+        this.tiempoDePreparacion = tiempoDePreparacion;
+    }
+
+    @Override
+    public String toString() {
+      return "Codigo del producto:" + codigoProducto + "\n" +
+              "Descripcion: " + descripcion + "\n" +
+              "PVP: " + pvp + "\n" +
+              "Gastos de envio: " + gastosDeEnvio + "\n" +
+              "Tiempo de preparacion: " + tiempoDePreparacion + "\n";
+    }
+}

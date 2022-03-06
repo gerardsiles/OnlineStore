@@ -1,6 +1,6 @@
 package modelo;
 
-public class Cliente {
+abstract class Cliente {
 
     private String nombre;
     private String domicilio;
@@ -27,8 +27,19 @@ public class Cliente {
     public void setEmail(String email) { this.email = email; }
 
 
+    public static class ListaClientes {
+    }
+
+    public abstract Cliente tipoDeCliente (); // TODO implemented in override in childs
 
 
+    public abstract int cuotaAnual(); // TODO implemented in override in childs
 
+    public abstract int descuentoGastosDeEnvio(); // TODO implemented in override in childs
+
+    @Override
+    public String toString() {
+        return ""; // TODO
+    }
 
 }
