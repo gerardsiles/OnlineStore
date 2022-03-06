@@ -1,12 +1,14 @@
 package vista;
 
+
 public class VistaCliente {
-    public void imprimirDatosCliente(String nombreCliente, String domicilio, String NIF, String email) {
+    public void imprimirDatosCliente() {
         System.out.println(
-                "Cliente: " + nombreCliente +
-                "Domicilio: " + domicilio +
-                "NIF: " + NIF +
-                "email: " + email
+                "Cliente: " + "getnombre" + "\n" +
+                "Tipo de cliente: " + "tipodecliente" + "\n" +
+                "Domicilio: " + "domicilio" + "\n" +
+                "NIF: " + "NIF" + "\n" +
+                "email: " + "email" + "\n"
                 );
     }
 }

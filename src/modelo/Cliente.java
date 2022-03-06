@@ -30,12 +30,13 @@ abstract class Cliente {
     public static class ListaClientes {
     }
 
-    public abstract Cliente tipoDeCliente (); // TODO implemented in override in childs
+    public abstract Cliente tipoDeCliente (String email); // TODO implemented in override in childs
 
 
     public abstract int cuotaAnual(); // TODO implemented in override in childs
 
     public abstract int descuentoGastosDeEnvio(); // TODO implemented in override in childs
+
 
     @Override
     public String toString() {

@@ -1,4 +1,5 @@
 package modelo;
 
-public class ListaClientes {
+public class ListaClientes extends Lista<Cliente>{
+    //todo
 }
