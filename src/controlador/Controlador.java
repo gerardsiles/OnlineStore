@@ -1,6 +1,5 @@
 package controlador;
 
-import vista.*;
 import modelo.*;
 
 public class Controlador {
@@ -18,5 +17,17 @@ public class Controlador {
         cliente.setDomicilio("calle pantomima");
         cliente.setNIF ("asdf1234");
         cliente.setEmail("abc@uoc.edu");
+    }
+
+    public static class OnlineStore {
+        public void imprimirDatosCliente() {
+            System.out.println(
+                    "Cliente: " + "getnombre" + "\n" +
+                            "Tipo de cliente: " + "tipodecliente" + "\n" +
+                            "Domicilio: " + "domicilio" + "\n" +
+                            "NIF: " + "NIF" + "\n" +
+                            "email: " + "email" + "\n"
+            );
+        }
     }
 }
