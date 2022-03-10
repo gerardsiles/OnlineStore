@@ -30,17 +30,24 @@ abstract class Cliente {
     public static class ListaClientes {
     }
 
-    public abstract Cliente tipoDeCliente (String email); // TODO implemented in override in childs
+    public abstract Cliente tipoDeCliente (String email); //  implemented in override in childs
 
 
-    public abstract int cuotaAnual(); // TODO implemented in override in childs
+    public abstract double cuotaAnual(); //  implemented in override in childs
 
-    public abstract int descuentoGastosDeEnvio(); // TODO implemented in override in childs
+    public abstract int descuentoGastosDeEnvio(); // implemented in override in childs
 
 
     @Override
     public String toString() {
-        return ""; // TODO
+        return "\"Datos del cliente: \\n\" + \n" +
+                "Tipo de cliente: Premium\" + \"\\n\" +\n" +
+                "Nombre: \" + this.getNombre() + \"\\n\" +\n" +
+                "Domicilio: \" + this.getDomicilio() + \"\\n\" +\n" +
+                "NIF: \" + this.getNIF() + \"\\n\" +   \n" +
+                "Email: \" + this.getEmail() + \"\\n\" +\n"
+                ;
+        // TODO
     }
 
 }

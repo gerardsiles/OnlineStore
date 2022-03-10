@@ -1,13 +1,13 @@
 package modelo;
 
 public class ClientePremium extends Cliente {
-    private double cuota;
-    private double descuento;
+    private final double cuota;
+    private final double descuento;
 
-    public ClientePremium(String nombre, String domicilio, String NIF, String email,double cuota, double descuento) {
+    public ClientePremium(String nombre, String domicilio, String NIF, String email) {
         super(nombre, domicilio, NIF, email);
-        this.cuota = cuota;
-        this.descuento = descuento;
+        this.cuota = 12;
+        this.descuento = 20;
     }
 
     @Override
@@ -17,9 +17,8 @@ public class ClientePremium extends Cliente {
     }
 
     @Override
-    public int cuotaAnual() {
-        // TODO
-        return 0;
+    public double cuotaAnual() {
+        return this.cuota * 12;
     }
 
     @Override
@@ -30,7 +29,14 @@ public class ClientePremium extends Cliente {
 
     @Override
     public String toString(){
-        // TODO
-        return "";
+        return "Datos del cliente: \n" +
+                "Tipo de cliente: Premium" + "\n" +
+                "Nombre: " + this.getNombre() + "\n" +
+                "Domicilio: " + this.getDomicilio() + "\n" +
+                "NIF: " + this.getNIF() + "\n" +
+                "Email: " + this.getEmail() + "\n" +
+                "Cuota: " + this.cuota + "\n" +
+                "Descuento en el envio: " + this.descuento
+                ;
     }
 }
