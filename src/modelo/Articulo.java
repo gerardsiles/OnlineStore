@@ -39,6 +39,7 @@ public class Articulo {
         this.pvp = pvp;
     }
 
+//     gastos de envio no tendrian que ser en pedido?
     public double getGastosDeEnvio() {
         return gastosDeEnvio;
     }

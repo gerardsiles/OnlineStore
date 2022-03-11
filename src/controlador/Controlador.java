@@ -12,8 +12,8 @@ public class Controlador {
 
     // constructor? es necesario?
     public Controlador() {
-        this.vista = vista;
-        this.datos = datos;
+        this.vista = new GestionOS();
+        this.datos = new Datos();
         this.opcion = 0;
     }
 
@@ -53,12 +53,17 @@ public class Controlador {
 
     public static void agregarArticulo() {
         // todo
+        // llamar a vista para perdir la informacion de los articulos
+        // recibir las variables de vista, y llamar al constructor
+        // llamar a vista para ok o fail al crear objeto
     }
 
     public static void mostrarArticulos() {
         // todo
+        // Pedir a Datos que recopile la informacion y la devuleva
+        // enviarla a Vista
     }
-    // GIN GESTION DE ARTICULOS
+    // FIN GESTION DE ARTICULOS
 
     // GESTION DE CLIENTES
     private static void gestionClientes() throws Exception {
@@ -78,12 +83,16 @@ public class Controlador {
 
     // metodo para agregar un cliente
     public static void agregarCliente() {
-        // todo
+        //todo
+        // llamar al metodo en datos
+        // enviar ok a vista o fail
     }
 
     // metodo para mostrar los clientes
     public static void mostrarClientes() {
-        // todo
+        //todo
+        // llamar al metodo en datos
+        // enviar a vista
     }
 
     // metodo para mostrar clientes estandard
@@ -100,8 +109,41 @@ public class Controlador {
     //  GESTION DE PEDIDOS
     private static void gestionDePedidos() throws Exception {
         GestionOS.printGesionPedidos();
-        performActionMenu(opcion);
+        performActionPedido(opcion);
     }
+
+    // Sub menu para los pedidos
+    public static void performActionPedido(int choice) throws Exception {
+        switch (choice) {
+            case 0 -> mostrarMenuPrincipal();
+            case 1 -> agregarPedido();
+            case 2 -> eliminarPedido();
+            case 3 -> mostrarPedidosPendientes();
+            case 4 -> mostrarPedidosEnviados();
+        }
+    }
+
+    // metodo para agregar un pedido
+    public static void agregarPedido() {
+        // todo
+    }
+
+    // metodo para eliminar un pedido
+    public static void eliminarPedido() {
+        // todo
+    }
+
+    // metodo para mostrar los pedidos pendientes de envio
+    public static void mostrarPedidosPendientes() {
+        // todo
+    }
+
+    // metodo para mostrar los pedidos enviados
+    public static void mostrarPedidosEnviados() {
+        // todo
+    }
+
+    // metodo para eliminar un pedido
     // FIN GESTION DE PEDIDOS
 
 

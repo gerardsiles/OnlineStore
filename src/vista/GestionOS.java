@@ -28,6 +28,17 @@ public class GestionOS {
 
     public static void printAgregarArticulo() {
         //todo
+        String codigo, descripcion;
+        double pvp, envio;
+        int tiempo;
+        // pedir informacion del artiulo y guardarlo en variables locales
+        System.out.println("Introduzca el codigo del producto");
+
+        System.out.println("Introduzca la descripcion del articulo:");
+        System.out.println("Introduzca el precio de venta:");
+        System.out.println("Introduzca los gastos de envio:");
+        System.out.println("Introduzca el tiempo de preparacion en minutos:");
+        // enviarlo al controlador
     }
 
     public static void printMostrarArticulos() {
@@ -38,6 +49,7 @@ public class GestionOS {
     public static void printGesionClientes() {
         System.out.println("\nSeleccione el metodo: ");
         System.out.println("---------------------");
+        System.out.println("0. Volver al menu principal");
         System.out.println("1. Agregar cliente");
         System.out.println("2. Mostrar clientes");
         System.out.println("3. Mostrar clientes Estandard");
@@ -69,6 +81,7 @@ public class GestionOS {
     public static void printGesionPedidos() {
         System.out.println("\nSeleccione el metodo: ");
         System.out.println("---------------------");
+        System.out.println("0. Volver al menu principal");
         System.out.println("1. Agregar pedido");
         System.out.println("2. Eliminar pedido");
         System.out.println("3. Mostrar pedidos pendientes de envio");
@@ -77,22 +90,22 @@ public class GestionOS {
     }
 
     // Sub menu para agregar un pedido
-    public static void agregarPedido() {
+    public static void printAgregarPedido() {
         // todo
     }
 
     // Sub menu para eliminar un pedido
-    public static void eliminarPedido() {
+    public static void printEliminarPedido() {
         // todo
     }
 
     // Sub menu para mostrar pedidos por enviar
-    public static void mostrarPedidosPendientes() {
+    public static void printMostrarPedidosPendientes() {
         //todo
     }
 
     // Sub menu para mostrar los pedidos enviados
-    public static void mostrarPedidosEnviados() {
+    public static void printMostrarPedidosEnviados() {
         //todo
     }
 
@@ -108,9 +121,38 @@ public class GestionOS {
             }
             catch(NumberFormatException e){
                 // todo error personalizado en la clase de errores
-                System.out.println("Introduzca un numero valido\n");
+                System.err.println("Introduzca un numero valido\n");
             }
         }
         return choice;
+    }
+
+    // metodo para recibir un input en forma de string
+    public static String getString() {
+        Scanner scanner = new Scanner(System.in);
+        // try catch error
+        String string = scanner.nextLine();
+        return string;
+    }
+
+    // metodo para recibir un input en forma de int
+    public static int getInt() {
+        Scanner scanner = new Scanner(System.in);
+        int numero = 0;
+        try {
+            numero = Integer.parseInt(scanner.nextLine());
+        } catch (Exception e){
+            System.err.println(e);
+        }
+        return numero;
+    }
+
+    // metodo para recibir un double
+    public static double getDouble() {
+        // todo
+        // try catch error
+        Scanner scanner = new Scanner(System.in);
+        double numero = Double.parseDouble(scanner.nextLine());
+        return numero;
     }
 }

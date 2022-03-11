@@ -18,7 +18,7 @@ public class ClienteEstandard extends Cliente {
     }
 
     @Override
-    public int descuentoGastosDeEnvio() {
+    public double descuentoGastosDeEnvio(double totalPedido) {
         return 0;
     }
 

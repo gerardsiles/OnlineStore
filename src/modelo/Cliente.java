@@ -35,7 +35,7 @@ abstract class Cliente {
 
     public abstract double cuotaAnual(); //  implemented in override in childs
 
-    public abstract int descuentoGastosDeEnvio(); // implemented in override in childs
+    public abstract double descuentoGastosDeEnvio(double totalPedido); // implemented in override in childs
 
 
     @Override

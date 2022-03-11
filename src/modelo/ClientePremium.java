@@ -10,6 +10,8 @@ public class ClientePremium extends Cliente {
         this.descuento = 20;
     }
 
+    // Get cliente?
+
     @Override
     public Cliente tipoDeCliente(String email) {
         // TODO
@@ -22,9 +24,8 @@ public class ClientePremium extends Cliente {
     }
 
     @Override
-    public int descuentoGastosDeEnvio() {
-        // TODO
-        return 0;
+    public double descuentoGastosDeEnvio(double totalPedido) {
+        return totalPedido - (totalPedido * 0.2);
     }
 
     @Override
