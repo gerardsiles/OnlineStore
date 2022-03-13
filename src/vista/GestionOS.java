@@ -1,7 +1,9 @@
 package vista;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.function.DoubleToIntFunction;
 
 public class GestionOS {
 
@@ -27,19 +29,35 @@ public class GestionOS {
         return getInput(2);
     }
 
-    public static void printAgregarArticulo() {
-        //todo
+    public static List printAgregarArticulo() {
         String codigo, descripcion;
         double pvp, envio;
         int tiempo;
+        List<Object> parametros = new ArrayList<Object>();
         // pedir informacion del artiulo y guardarlo en variables locales
         System.out.println("Introduzca el codigo del producto");
-
+        codigo = getString();
+        parametros.add(codigo);
         System.out.println("Introduzca la descripcion del articulo:");
+        descripcion = getString();
+        parametros.add(descripcion);
         System.out.println("Introduzca el precio de venta:");
+        pvp = getDouble();
+        parametros.add(pvp);
         System.out.println("Introduzca los gastos de envio:");
+        envio = getDouble();
+        parametros.add(envio);
         System.out.println("Introduzca el tiempo de preparacion en minutos:");
-        // enviarlo al controlador
+        tiempo = getInt();
+        parametros.add(tiempo);
+        return parametros;
+    }
+    public static void articuloCreado(Boolean creado) {
+        if (creado) {
+            System.out.println("Se ha creado el articulo");
+        } else {
+           System.out.println("Ha habido un error al crear el articulo");
+        }
     }
 
     public static void printMostrarArticulos(ArrayList array) {
@@ -54,7 +72,7 @@ public class GestionOS {
     }
 
     // Sub menu para la gestion de los clientes
-    public static void printGesionClientes() {
+    public static int printGesionClientes() {
         System.out.println("\nSeleccione el metodo: ");
         System.out.println("---------------------");
         System.out.println("0. Volver al menu principal");
@@ -62,7 +80,7 @@ public class GestionOS {
         System.out.println("2. Mostrar clientes");
         System.out.println("3. Mostrar clientes Estandard");
         System.out.println("4. Mostrar clientes Premium");
-        getInput(4);
+        return getInput(4);
     }
 
     // Sub menu para agregar un cliente
@@ -86,7 +104,7 @@ public class GestionOS {
     }
 
     // Sub menu para la gestion de los pedidos
-    public static void printGesionPedidos() {
+    public static int printGesionPedidos() {
         System.out.println("\nSeleccione el metodo: ");
         System.out.println("---------------------");
         System.out.println("0. Volver al menu principal");
@@ -94,7 +112,7 @@ public class GestionOS {
         System.out.println("2. Eliminar pedido");
         System.out.println("3. Mostrar pedidos pendientes de envio");
         System.out.println("4. Mostrar pedidos enviados");
-        getInput(4);
+        return getInput(4);
     }
 
     // Sub menu para agregar un pedido
@@ -157,10 +175,13 @@ public class GestionOS {
 
     // metodo para recibir un double
     public static double getDouble() {
-        // todo
-        // try catch error
         Scanner scanner = new Scanner(System.in);
-        double numero = Double.parseDouble(scanner.nextLine());
+        double numero = 0;
+        try {
+        numero = Double.parseDouble(scanner.nextLine());
+        } catch (Exception e){
+            System.err.println(e);
+    }
         return numero;
     }
 }

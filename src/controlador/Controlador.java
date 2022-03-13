@@ -7,6 +7,7 @@ import modelo.ListaArticulos;
 import vista.GestionOS;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Controlador {
@@ -59,16 +60,20 @@ public class Controlador {
 
     public static void agregarArticulo() {
         // todo
-        System.out.println("agregar articulo");
-        // llamar a vista para pedir la informacion de los articulos
-        // recibir las variables de vista, y llamar al constructor
-        // llamar a vista para ok o fail al crear objeto
+        boolean creado = false;
+        List<Object> parametros = new ArrayList<Object>();
+        parametros = GestionOS.printAgregarArticulo();
+        // enviar informacion a Datos
+        creado = Datos.crearArticulo(parametros);
+        GestionOS.articuloCreado(creado);
     }
 
     public static void mostrarArticulos() {
-        // todo
+        // Crear una array temporal para recibir articulos
         ArrayList<Articulo> array = new ArrayList<>();
+        // Llenar la array con los articulos
         array = Datos.listarArticulos();
+        // Llamar a la vista para mostrar los articulos
         GestionOS.printMostrarArticulos(array);
     }
     // FIN GESTION DE ARTICULOS

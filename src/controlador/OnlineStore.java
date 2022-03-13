@@ -34,6 +34,12 @@ public class OnlineStore {
     public static ArrayList<Articulo> getArticulos() {
         return baseDeDatos.getArticulos();
     }
+    public static void addArticulo(Articulo articulo) {
+        baseDeDatos.addArticulo(articulo);
+    }
+     public static boolean articuloExiste(Articulo articulo) {
+        return baseDeDatos.getArticulos().contains(articulo);
+     }
     // Metodo para salir de la aplicacion
     public static void setExitTrue() {
         exit = true;

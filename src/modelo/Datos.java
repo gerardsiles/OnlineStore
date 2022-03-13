@@ -3,16 +3,22 @@ import controlador.Controlador;
 import controlador.OnlineStore;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import static java.lang.Long.valueOf;
 
 public class Datos {
     // GESTION ARTICULOS
-    public static void crearArticulo() {
-        //todo
-        // agregar parametros de entrada
+    public static boolean crearArticulo(List<Object> parametros) {
+
         // crear un nuevo objeto de tipo Articulo
-        // crear clase temporal que sustituye la base de datos
-        // agregarlo a la arraylist
-        // enviar OK al controlador
+        Articulo articulo = new Articulo(parametros.get(0).toString(),parametros.get(1).toString(),
+                (Double)parametros.get(2), (Double)parametros.get(3), (Integer) parametros.get(4));
+
+        // agregarlo a la arraylist en main
+        OnlineStore.addArticulo(articulo);
+        // enviar al controlador si el articulo se ha creado o no
+        return OnlineStore.articuloExiste(articulo);
     }
 
     public static ArrayList<Articulo> listarArticulos() {
