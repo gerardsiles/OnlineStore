@@ -1,7 +1,12 @@
 package controlador;
 
+import modelo.*;
+import modelo.Articulo;
 import modelo.Datos;
+import modelo.ListaArticulos;
 import vista.GestionOS;
+
+import java.util.ArrayList;
 
 
 public class Controlador {
@@ -39,8 +44,9 @@ public class Controlador {
 
     // GESTION DE ARTICULOS
     public static void gestionArticulos() throws Exception {
-        GestionOS.printGestionArticulos();
+        opcion = GestionOS.printGestionArticulos();
         performActionArticulo(opcion);
+
     }
 
     public static void performActionArticulo(int choice) throws Exception {
@@ -53,15 +59,17 @@ public class Controlador {
 
     public static void agregarArticulo() {
         // todo
-        // llamar a vista para perdir la informacion de los articulos
+        System.out.println("agregar articulo");
+        // llamar a vista para pedir la informacion de los articulos
         // recibir las variables de vista, y llamar al constructor
         // llamar a vista para ok o fail al crear objeto
     }
 
     public static void mostrarArticulos() {
         // todo
-        // Pedir a Datos que recopile la informacion y la devuleva
-        // enviarla a Vista
+        ArrayList<Articulo> array = new ArrayList<>();
+        array = Datos.listarArticulos();
+        GestionOS.printMostrarArticulos(array);
     }
     // FIN GESTION DE ARTICULOS
 

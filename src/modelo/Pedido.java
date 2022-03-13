@@ -23,6 +23,7 @@ public class Pedido {
         this.procesado = procesado;
     }
 
+    // GETTERS Y SETTERS
     public int getNumeroDePedido() {
         return numeroDePedido;
     }
@@ -63,31 +64,42 @@ public class Pedido {
         this.fecha = fecha;
     }
 
-    public boolean isProcesado() {
-        return procesado;
-    }
+    public boolean getProcesado() {return this.procesado;}
 
     public void setProcesado(boolean procesado) {
         this.procesado = procesado;
     }
+    // FIN GETTERS Y SETTERS
+
+    // Metodos de clase
+
+    // Comprobar si el pedido esta procesado
+    // pedido procesado y pedido enviado no es lo mismo?
+    public boolean isProcesado() {
+        return procesado;
+    }
+
 
     public boolean pedidoEnviado(Pedido pedido) {
         //todo
         return false;
     }
 
-    public boolean pedidoProcesado(Pedido pedido) {
-        // TODO
-        return true;
+    public String pedidoProcesado() {
+        if(this.procesado){
+            return "si";
+        } else {
+            return "no";
+        }
     }
 
     public void cancelarPedido(Pedido pedido) {
-        //todo
+        //todo delete pedido from array
+        // pedir confirmacion
     }
 
-    public double calcularPrecio(Pedido pedido) {
-        //todo
-        return 0.0;
+    public double calcularPrecio() {
+        return this.articulo.getPvp() * this.cantidad;
     }
 
     public double precioEnvio() {
@@ -97,11 +109,20 @@ public class Pedido {
 
     @Override
     public String toString() {
-        // todo
+
         // El método toString debe construir una cadena con los datos siguientes:
         // número de pedido, fecha y hora del pedido, Nif y nombre del cliente,
         // código y descripción del artículo, cantidad, precio artículo, coste envío,
         // precio total y si ya se ha enviado.
-        return "";
+        return "El numero del pedido es: " + this.numeroDePedido + "\n" +
+                "Fecha del pedido: " + this.fecha + "\n" +
+                "Cliente: " + this.cliente.getNIF() + ", " + this.cliente.getNombre() + "\n" +
+                "Codigo del articulo: " + this.articulo.getCodigoProducto() + "\n" +
+                "Cantidad: " + this.cantidad + "\n" +
+                "Precio del articulo: " + articulo.getPvp() + "\n" +
+                "Costes de envio: " + articulo.getGastosDeEnvio() + "\n" +
+                "Precio total: " + calcularPrecio() + "\n" +
+                "Procesado: " + pedidoProcesado() + "\n"
+                ;
     }
 }

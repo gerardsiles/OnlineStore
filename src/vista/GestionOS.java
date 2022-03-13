@@ -1,5 +1,6 @@
 package vista;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GestionOS {
@@ -17,13 +18,13 @@ public class GestionOS {
     }
 
     // Sub menu para la gestion de los articulos
-    public static void printGestionArticulos() {
+    public static int printGestionArticulos() {
         System.out.println("\nSeleccione el metodo: ");
         System.out.println("---------------------");
         System.out.println("0. Volver al menu principal");
         System.out.println("1. Agregar articulo");
         System.out.println("2. Mostrar articulos");
-        getInput(2);
+        return getInput(2);
     }
 
     public static void printAgregarArticulo() {
@@ -41,8 +42,15 @@ public class GestionOS {
         // enviarlo al controlador
     }
 
-    public static void printMostrarArticulos() {
+    public static void printMostrarArticulos(ArrayList array) {
         // todo
+        System.out.println("Lista de clientes");
+        System.out.println("---------------------");
+
+        for (int i = 0; i < array.size(); i++) {
+            System.out.println(array.get(i));
+            System.out.println("---------------------");
+        }
     }
 
     // Sub menu para la gestion de los clientes

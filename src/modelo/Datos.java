@@ -1,5 +1,8 @@
 package modelo;
 import controlador.Controlador;
+import controlador.OnlineStore;
+
+import java.util.ArrayList;
 
 public class Datos {
     // GESTION ARTICULOS
@@ -12,12 +15,11 @@ public class Datos {
         // enviar OK al controlador
     }
 
-    public static void listarArticulos() {
+    public static ArrayList<Articulo> listarArticulos() {
         //todo
-        // crear metodo en lista
-        // override en listaArticulos
-        // llamar al metodo
-        // enviarlo al controlador
+        ArrayList<Articulo> array = new ArrayList<>();
+        array = OnlineStore.getArticulos();
+        return array;
     }
     // FIN GESTION ARTICULOS
 
@@ -45,7 +47,7 @@ public class Datos {
         // enviarlo al controlador
     }
 
-    public void recibirDatosClientesPremiuem() {
+    public void recibirDatosClientesPremium() {
         //todo
         // override en listaClientes
         // llamar al metodo

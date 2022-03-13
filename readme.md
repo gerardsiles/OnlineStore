@@ -50,7 +50,7 @@ Gestión de Pedidos<br>
 Implementacion del MVC:
 * **grupofp.vista**: la vista contendrá todas las clases relacionadas con el manejo del menú de opciones, así como la entrada y visualización de los datos. Este paquete contendrá las clases OnlineStore y GestionOS.
 * **grupofp.controlador**: el paquete controlador únicamente contendrá la clase Controlador, que hará de puente entre la vista y el modelo. La vista sólo podrá utilizar esta clase para acceder a la información del modelo.
-* **grupofp.modelo*: el modelo contendrá todas las clases que modelan los datos que deben gestionarse dentro de la aplicación. Dentro del modelo, merece especial mención la clase Datos, que contendrá todos los datos de la aplicación y llevará a cabo todas las acciones que afectan a las mismas. Este paquete contendrá las clases Datos, Cliente, ListaClientes así como el resto de clases necesarias en la capa Modelo.
+* **grupofp.modelo**: el modelo contendrá todas las clases que modelan los datos que deben gestionarse dentro de la aplicación. Dentro del modelo, merece especial mención la clase Datos, que contendrá todos los datos de la aplicación y llevará a cabo todas las acciones que afectan a las mismas. Este paquete contendrá las clases Datos, Cliente, ListaClientes así como el resto de clases necesarias en la capa Modelo.
 
 ### Clases del proyecto
 

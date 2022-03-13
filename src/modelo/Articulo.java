@@ -1,6 +1,6 @@
 package modelo;
 
-public class Articulo {
+public class Articulo{
     private String codigoProducto;
     private String descripcion;
     private double pvp;
