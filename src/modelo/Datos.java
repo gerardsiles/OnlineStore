@@ -18,7 +18,7 @@ public class Datos {
 
         // crear un nuevo objeto de tipo Articulo
         Articulo articulo = new Articulo(parametros.get(0).toString(),parametros.get(1).toString(),
-                (Double)parametros.get(2), (Double)parametros.get(3), (Integer) parametros.get(4));
+                (Double)parametros.get(2), (Double)parametros.get(3), (Integer)parametros.get(4));
 
         // agregarlo a la arraylist en main
         ArrayDatos.addArticulo(articulo);
@@ -26,11 +26,10 @@ public class Datos {
         return ArrayDatos.articuloExiste(articulo);
     }
 
-    public static ArrayList<Articulo> listarArticulos() {
+    public static List listarArticulos() {
         //todo
-        ArrayList<Articulo> array;
-        array = ArrayDatos.getArticulos();
-        return array;
+        List lista = ListaArticulos.getArticulos();
+        return lista;
     }
     // FIN GESTION ARTICULOS
 

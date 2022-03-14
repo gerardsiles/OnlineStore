@@ -1,9 +1,5 @@
 package controlador;
 
-import modelo.*;
-import vista.GestionOS;
-
-import java.util.ArrayList;
 
 public class OnlineStore {
     static boolean exit = false;
@@ -16,7 +12,6 @@ public class OnlineStore {
         runMenu();
 
     }
-
 
     public static void runMenu() throws Exception {
         // iniciar el programa y cargar el menu

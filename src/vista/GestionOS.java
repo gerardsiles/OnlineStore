@@ -58,17 +58,17 @@ public class GestionOS {
         if (creado) {
             System.out.println("Se ha creado el articulo");
         } else {
-           System.out.println("Ha habido un error al crear el articulo");
+           System.err.println("Ha habido un error al crear el articulo");
         }
     }
 
-    public static void printMostrarArticulos(ArrayList array) {
+    public static void printMostrarArticulos(List lista) {
         // todo
         System.out.println("Lista de clientes");
         System.out.println("---------------------");
 
-        for (int i = 0; i < array.size(); i++) {
-            System.out.println(array.get(i));
+        for (int i = 0; i < lista.size(); i++) {
+            System.out.println(lista.get(i));
             System.out.println("---------------------");
         }
     }

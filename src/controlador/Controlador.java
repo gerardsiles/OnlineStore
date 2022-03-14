@@ -1,9 +1,8 @@
 package controlador;
 
-import modelo.*;
-import modelo.Articulo;
+
+
 import modelo.Datos;
-import modelo.ListaArticulos;
 import vista.GestionOS;
 
 import java.util.ArrayList;
@@ -15,13 +14,6 @@ public class Controlador {
     private static GestionOS vista;
     private static Datos datos;
     private static int opcion = 0;
-
-    // constructor? es necesario?
-    public Controlador() {
-        this.vista = new GestionOS();
-        this.datos = new Datos();
-        this.opcion = 0;
-    }
 
 
     // MENU PRINCIPAL
@@ -71,11 +63,10 @@ public class Controlador {
 
     public static void mostrarArticulos() {
         // Crear una array temporal para recibir articulos
-        ArrayList<Articulo> array = new ArrayList<>();
+        List lista = Datos.listarArticulos();;
         // Llenar la array con los articulos
-        array = Datos.listarArticulos();
         // Llamar a la vista para mostrar los articulos
-        GestionOS.printMostrarArticulos(array);
+        GestionOS.printMostrarArticulos(lista);
     }
     // FIN GESTION DE ARTICULOS
 

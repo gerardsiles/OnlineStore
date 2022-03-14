@@ -2,6 +2,7 @@ package modelo;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ArrayDatos {
     // esta clase es temporal, substituye la conexion con la base de datos.
@@ -23,7 +24,7 @@ public class ArrayDatos {
     public static Articulo getArticulo(String codigo) {
         return articulos.stream().filter(articulo -> codigo.equals(articulo.getCodigoProducto())).findFirst().orElse(null);}
 
-    public static ArrayList<Articulo> getArticulos() {
+    public static List getArticulos() {
         return articulos;
     }
 

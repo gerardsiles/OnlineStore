@@ -2,7 +2,7 @@ package modelo;
 
 import controlador.OnlineStore;
 
-abstract class Cliente {
+public abstract class Cliente {
 
     private String nombre;
     private String domicilio;
