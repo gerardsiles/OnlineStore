@@ -1,5 +1,7 @@
 package modelo;
 
+import controlador.OnlineStore;
+
 public class ClienteEstandard extends Cliente {
 
     public ClienteEstandard(String nombre, String domicilio, String NIF, String email) {
@@ -7,9 +9,15 @@ public class ClienteEstandard extends Cliente {
     }
 
     @Override
-    public Cliente tipoDeCliente(String email) {
-        //todo
-        return null;
+    public boolean tipoDeCliente(String email) {
+        boolean encontrado = false;
+        // retornar objeto return OnlineStore.getClientes().stream().filter(cliente -> email.equals(cliente.getEmail())).findFirst().orElse(null);
+        for (ClienteEstandard ce : ArrayDatos.getClientesEstandard()) {
+            if (ce.getEmail().equals(email)) {
+                encontrado = true;
+            }
+        }
+        return encontrado;
     }
 
     @Override

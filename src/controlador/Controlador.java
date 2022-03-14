@@ -25,7 +25,9 @@ public class Controlador {
 
 
     // MENU PRINCIPAL
-
+    public static void cargarDatos() {
+        Datos.cargarDatos();
+    }
     // Vista menu general
     public static void mostrarMenuPrincipal() throws Exception {
         opcion = GestionOS.printMenu();
@@ -59,7 +61,6 @@ public class Controlador {
     }
 
     public static void agregarArticulo() {
-        // todo
         boolean creado = false;
         List<Object> parametros = new ArrayList<Object>();
         parametros = GestionOS.printAgregarArticulo();
@@ -80,7 +81,7 @@ public class Controlador {
 
     // GESTION DE CLIENTES
     private static void gestionClientes() throws Exception {
-        GestionOS.printGesionClientes();
+        opcion = GestionOS.printGesionClientes();
         performActionCliente(opcion);
     }
 
@@ -97,8 +98,18 @@ public class Controlador {
     // metodo para agregar un cliente
     public static void agregarCliente() {
         //todo
-        // llamar al metodo en datos
+        List<Object> parametros;
+        parametros = GestionOS.printAgregarCliente();
+
+        // llamar al metodo en datos para crear el cliente
+        if (!parametros.isEmpty()){
+            Datos.crearCliente(parametros);
+        }
         // enviar ok a vista o fail
+    }
+
+    public static boolean comprobarClienteExiste(String email) {
+        return Datos.clienteExiste(email);
     }
 
     // metodo para mostrar los clientes

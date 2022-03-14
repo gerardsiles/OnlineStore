@@ -1,5 +1,7 @@
 package modelo;
 
+import controlador.OnlineStore;
+
 abstract class Cliente {
 
     private String nombre;
@@ -26,12 +28,20 @@ abstract class Cliente {
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
-
-    public static class ListaClientes {
+    public static boolean clienteExiste(String email) {
+        boolean existe = false;
+        for (Cliente cliente : ArrayDatos.getClientes()) {
+            if (cliente.getEmail().equals(email)) {
+                existe = true;
+            }
+        }
+        return existe;
     }
 
-    public abstract Cliente tipoDeCliente (String email); //  implemented in override in childs
-
+    public abstract boolean tipoDeCliente (String email); //  implemented in override in childs
+    // llamar a cliente estandard para ver si existe alli
+    // si no existe, llamar a cliente premium para ver si existe alli
+    // si no existe, informar de que el cliente no existe
 
     public abstract double cuotaAnual(); //  implemented in override in childs
 

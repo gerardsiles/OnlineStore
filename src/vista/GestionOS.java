@@ -1,5 +1,7 @@
 package vista;
 
+import controlador.Controlador;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -84,8 +86,45 @@ public class GestionOS {
     }
 
     // Sub menu para agregar un cliente
-    public static void printAgregarCliente() {
+    public static List printAgregarCliente() {
         // todo
+        boolean existe = false;
+        int tipoDeCliente;
+        String nombre, domicilio, nif, email;
+        List<Object> parametros = new ArrayList<Object>();
+
+
+        System.out.println("Introduzca que tipo  de cliente quiere crear");
+        System.out.println("1. Cliente estandard");
+        System.out.println("2. Cliente premium");
+        tipoDeCliente = getInput(2);
+
+        System.out.println("Introduzca el email");
+        email = getString();
+
+        // llamar al controlador para comprobar si el email ya existe en la base de datos
+        existe = Controlador.comprobarClienteExiste(email);
+        // si el cliente ya existe, informar de ello
+        if (existe) {
+            System.out.println("El cliente ya existe.");
+        } else { // si no existe, crear nuevo cliente
+            parametros.add(tipoDeCliente);
+            System.out.println("El cliente no existe, procediendo a crear un nuevo cliente");
+            System.out.println("---------------------");
+            System.out.println("Introduzca el nombre");
+            nombre = getString();
+            parametros.add(nombre);
+            System.out.println("Introduzca el domicilio");
+            domicilio = getString();
+            parametros.add(domicilio);
+            System.out.println("Introduzca el nif");
+            nif = getString();
+            parametros.add(nif);
+            parametros.add(email);
+
+        }
+        // devolver la lista de parametros para crear el cliente
+        return parametros;
     }
 
     // Sub menu para mostrar los clientes existente

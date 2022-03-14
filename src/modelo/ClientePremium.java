@@ -13,9 +13,9 @@ public class ClientePremium extends Cliente {
     // Get cliente?
 
     @Override
-    public Cliente tipoDeCliente(String email) {
+    public boolean tipoDeCliente(String email) {
         // TODO
-        return null;
+        return false;
     }
 
     @Override

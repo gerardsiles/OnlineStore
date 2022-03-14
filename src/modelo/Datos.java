@@ -2,13 +2,18 @@ package modelo;
 import controlador.Controlador;
 import controlador.OnlineStore;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Long.valueOf;
 
 public class Datos {
     // GESTION ARTICULOS
+    private static ArrayDatos baseDeDatos = new ArrayDatos();
+
+    public static void cargarDatos() {
+        ArrayDatos.cargarDatos();
+    }
     public static boolean crearArticulo(List<Object> parametros) {
 
         // crear un nuevo objeto de tipo Articulo
@@ -16,25 +21,48 @@ public class Datos {
                 (Double)parametros.get(2), (Double)parametros.get(3), (Integer) parametros.get(4));
 
         // agregarlo a la arraylist en main
-        OnlineStore.addArticulo(articulo);
+        ArrayDatos.addArticulo(articulo);
         // enviar al controlador si el articulo se ha creado o no
-        return OnlineStore.articuloExiste(articulo);
+        return ArrayDatos.articuloExiste(articulo);
     }
 
     public static ArrayList<Articulo> listarArticulos() {
         //todo
-        ArrayList<Articulo> array = new ArrayList<>();
-        array = OnlineStore.getArticulos();
+        ArrayList<Articulo> array;
+        array = ArrayDatos.getArticulos();
         return array;
     }
     // FIN GESTION ARTICULOS
 
     // GESTION CLIENTES
-    public static void crearCliente() {
+    public static boolean clienteExiste(String email) {
+        boolean existe = false;
+        for (ClienteEstandard cl : ArrayDatos.getClientesEstandard()) {
+            if (cl.getEmail().equals(email)){
+                existe = true;
+            }
+        }
+        for (ClientePremium cp : ArrayDatos.getClientesPremium()) {
+            if (cp.getEmail().equals(email)){
+                existe = true;
+            }
+        }
+        return existe;
+    }
+    public static void crearCliente(List<Object> parametros) {
         //todo
-        // agregar parametros de entrada
-        // crear un nuevo bojeto de tipo Cliente
-        // agregarlo a la arraylist en clase temporal
+        if (parametros.get(0).equals(1)) {
+            // crear cliente estandard
+            ClienteEstandard ce = new ClienteEstandard(parametros.get(1).toString(),parametros.get(2).toString(),
+                    parametros.get(3).toString(),parametros.get(4).toString());
+            ArrayDatos.addClienteEstandard(ce);
+        } else if (parametros.get(0).equals(2)) {
+            // crear cliente premium
+            ClientePremium cp = new ClientePremium(parametros.get(1).toString(),parametros.get(2).toString(),
+                    parametros.get(3).toString(),parametros.get(4).toString());
+            ArrayDatos.addClientePremium(cp);
+        }
+        // Comprobar que el cliente se ha creado correctamente
         // enviar ok al controlador
     }
 
