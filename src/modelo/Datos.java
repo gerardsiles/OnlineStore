@@ -125,14 +125,12 @@ public class Datos {
 
     // metodo para eliminar un pedido existente
     public static boolean eliminarPedido(int numPedido) {
-        //todo
         boolean eliminado = false;
         eliminado = ArrayDatos.eliminarPedido(numPedido);
         return eliminado;
     }
 
     public static List recibirDatosPedidosPendientes() {
-        //todo
         // recibir todos los pedidos WHERE enviado == FALSE
         List lista = ListaPedidos.getPedidosPendientes();
         // enviar arraylist a controlador
