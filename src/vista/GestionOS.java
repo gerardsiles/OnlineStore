@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.function.DoubleToIntFunction;
 
 public class GestionOS {
 
@@ -37,7 +36,7 @@ public class GestionOS {
         String codigo, descripcion;
         double pvp, envio;
         int tiempo;
-        List<Object> parametros = new ArrayList<Object>();
+        List<Object> parametros = new ArrayList<>();
         // pedir informacion del artiulo y guardarlo en variables locales
         System.out.println("Introduzca el codigo del producto");
         codigo = getString();
@@ -88,11 +87,10 @@ public class GestionOS {
 
     // Sub menu para agregar un cliente
     public static List printAgregarCliente() {
-        // todo
-        boolean existe = false;
+        boolean existe;
         int tipoDeCliente;
         String nombre, domicilio, nif, email;
-        List<Object> parametros = new ArrayList<Object>();
+        List parametros = new ArrayList<>();
 
 
         System.out.println("Introduzca que tipo  de cliente quiere crear");
@@ -274,8 +272,13 @@ public class GestionOS {
     }
 
     // Sub menu para mostrar los pedidos enviados
-    public static void printMostrarPedidosEnviados() {
-        //todo
+    public static void printMostrarPedidosEnviados(List lista) {
+        System.out.println("Mostrando pedidos enviados");
+        System.out.println("-------------------------------------");
+        for (int i = 0; i < lista.size(); i++) {
+            System.out.println(lista.get(i));
+            System.out.println("---------------------");
+        }
     }
 
     // Metodo para recibir el input del usuario para el menu
@@ -289,7 +292,6 @@ public class GestionOS {
                 choice = Integer.parseInt(scanner.nextLine());
             }
             catch(NumberFormatException e){
-                // todo error personalizado en la clase de errores
                 System.err.println("Introduzca un numero valido\n");
             }
         }
@@ -311,7 +313,6 @@ public class GestionOS {
         try {
             numero = Integer.parseInt(scanner.nextLine());
         } catch (Exception e){
-            // todo error personalizado
             System.err.println(e);
         }
         return numero;
@@ -324,8 +325,6 @@ public class GestionOS {
         try {
         numero = Double.parseDouble(scanner.nextLine());
         } catch (Exception e){
-
-            // todo error personalizado
             System.err.println(e);
     }
         return numero;

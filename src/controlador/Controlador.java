@@ -194,9 +194,13 @@ public class Controlador {
     // metodo para mostrar los pedidos enviados
     public static void mostrarPedidosEnviados() {
         // todo
+        List lista = new ArrayList<>();
+        // llenar la lista con los pedidos enviados
+        lista = Datos.recibirDatosPedidosEnviados();
+        // enviar la lista a vista para ser impresa
+        GestionOS.printMostrarPedidosEnviados(lista);
     }
 
-    // metodo para eliminar un pedido
     // FIN GESTION DE PEDIDOS
 
 

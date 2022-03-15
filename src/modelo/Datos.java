@@ -98,6 +98,9 @@ public class Datos {
         boolean existe = false;
         Articulo articulo = ArrayDatos.getArticulo((String)parametros.get(0));
         Cliente cliente = ArrayDatos.getCliente((String)parametros.get(1));
+        // calcular el precio total del pedido
+        // calcular los gastos de envio
+        // calcular si tiene descuento al ser cliente premiuem
         // creamos nuevo pedido
         // el numero de pedido se recibe automaticamente
         Pedido pedido = new Pedido(Pedido.recibirNumeroPedido(), articulo,
@@ -134,15 +137,13 @@ public class Datos {
         // recibir todos los pedidos WHERE enviado == FALSE
         List lista = ListaPedidos.getPedidosPendientes();
         // enviar arraylist a controlador
-        //System.out.println(lista);
         return lista;
     }
 
-    public static void recibirDatosPedidosEnviados() {
-        //todo
-        // recibir todos los pedidos WHERE enviado == TRUE
-        // meterlos en ujna nueva arraylist
-        // enviar arraylist al controlador
+    public static List recibirDatosPedidosEnviados() {
+        // recibir todos los pedidos enviados
+        List lista = ListaPedidos.getPedidosEnviados();
+        return lista;
     }
     // FIN GESTION PEDIDOS
 }

@@ -3,6 +3,8 @@ package modelo;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import static java.lang.Math.floor;
+
 
 public class Pedido {
     private int numeroDePedido;
@@ -89,12 +91,7 @@ public class Pedido {
     }
 
 
-    public boolean pedidoEnviado(Pedido pedido) {
-        //todo
-        return false;
-    }
-
-    public String pedidoProcesado() {
+    public String pedidoEnviado() {
         if(this.procesado){
             return "si";
         } else {
@@ -102,19 +99,25 @@ public class Pedido {
         }
     }
 
-    public void cancelarPedido(Pedido pedido) {
-        //todo delete pedido from array
-        // pedir confirmacion
-    }
 
     public double calcularPrecio() {
-        return this.articulo.getPvp() * this.cantidad;
+        double total;
+        total = this.articulo.getPvp() * this.cantidad +precioEnvio();
+        // si el cliente es premium, descontar el 20%
+        if (this.getCliente() instanceof ClientePremium) {
+            total -= total * 0.2;
+        }
+        // acotar el total a 2 decimales
+        floor(total);
+        return total;
+
     }
 
     public double precioEnvio() {
-        // todo
-        return 0.0;
+        return this.articulo.getGastosDeEnvio() * this.cantidad;
     }
+
+
 
     @Override
     public String toString() {
@@ -130,8 +133,9 @@ public class Pedido {
                 "Cantidad: " + this.cantidad + "\n" +
                 "Precio del articulo: " + articulo.getPvp() + "\n" +
                 "Costes de envio: " + articulo.getGastosDeEnvio() + "\n" +
+                "Coste total de envio: " + precioEnvio() + "\n" +
                 "Precio total: " + calcularPrecio() + "\n" +
-                "Procesado: " + pedidoProcesado() + "\n"
+                "Procesado: " + pedidoEnviado() + "\n"
                 ;
     }
 }

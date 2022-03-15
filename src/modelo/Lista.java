@@ -7,7 +7,7 @@ import java.util.List;
 public class Lista<T> {
 
     // metodo generico para llenar una lista con objetos
-    public static <T> ArrayList<T>  retrieveObjetosClase (ArrayList<T> arrayOrigen) {
+    protected static <T> ArrayList<T>  retrieveObjetosClase (ArrayList<T> arrayOrigen) {
         // declarar array nueva
         ArrayList<T> lista = new ArrayList<T>();
         // iniciar iterador

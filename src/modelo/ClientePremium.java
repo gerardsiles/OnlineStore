@@ -6,7 +6,7 @@ public class ClientePremium extends Cliente {
 
     public ClientePremium(String nombre, String domicilio, String NIF, String email) {
         super(nombre, domicilio, NIF, email);
-        this.cuota = 12;
+        this.cuota = 30;
         this.descuento = 20;
     }
 
