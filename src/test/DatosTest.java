@@ -2,7 +2,11 @@ package test;
 
 import modelo.ArrayDatos;
 import modelo.Articulo;
+import modelo.Cliente;
+import modelo.Pedido;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,5 +43,19 @@ class DatosTest {
 
     @Test
     void recibirDatosClientesPremium() {
+    }
+
+    @Test
+    void crearDatosPedido() {
+        boolean existe = false;
+        Articulo articulo = ArrayDatos.getArticulo("AS235D");
+        Cliente cliente = ArrayDatos.getCliente("email1@prueba.com");
+        Pedido pedido = new Pedido(Pedido.recibirNumeroPedido(),articulo, cliente, 2, LocalDate.now(), false);
+        // agregar datos al pedido
+        ArrayDatos.addPedido(pedido);
+
+        // Comprobar que el pedido se haya creado correctamente
+        existe = ArrayDatos.pedidoExiste(pedido);
+        assertEquals(true, ArrayDatos.pedidoExiste(pedido));
     }
 }

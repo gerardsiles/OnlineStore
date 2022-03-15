@@ -1,26 +1,21 @@
 package modelo;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
 
 // clase generica
 public class Lista<T> {
-    //todo
-    // metodos genericos par imprimir la informacion
-    // especificar en las clases tipo de informacion que imprime
-    public  ArrayList<T>  retrieveObjetosClase (ArrayList<T> arrayOrigen) {
+
+    // metodo generico para llenar una lista con objetos
+    public static <T> ArrayList<T>  retrieveObjetosClase (ArrayList<T> arrayOrigen) {
         // declarar array nueva
-        ArrayList<T> array = new ArrayList<T>();
+        ArrayList<T> lista = new ArrayList<T>();
         // iniciar iterador
-        Iterator<T> it = arrayOrigen.iterator();
-        // Recorrer la array
-        while (it.hasNext()) {
-            // agregar cada valor a la nueva array
-            array.add(it.next());
+        for (int i = 0; i < lista.size(); i++) {
+            lista.add(lista.get(i));
         }
         // Devolver array
-        return array;
-
+        return lista;
     }
 
 }

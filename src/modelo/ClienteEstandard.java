@@ -8,7 +8,7 @@ public class ClienteEstandard extends Cliente {
         super(nombre, domicilio, NIF, email);
     }
 
-    @Override
+
     public boolean tipoDeCliente(String email) {
         boolean encontrado = false;
         // retornar objeto return OnlineStore.getClientes().stream().filter(cliente -> email.equals(cliente.getEmail())).findFirst().orElse(null);
@@ -20,12 +20,12 @@ public class ClienteEstandard extends Cliente {
         return encontrado;
     }
 
-    @Override
+
     public double cuotaAnual() {
         return 0;
     }
 
-    @Override
+
     public double descuentoGastosDeEnvio(double totalPedido) {
         return 0;
     }

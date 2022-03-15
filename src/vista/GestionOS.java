@@ -1,7 +1,9 @@
 package vista;
 
+import Excepciones.PedidoNoExisteException;
 import controlador.Controlador;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -63,8 +65,7 @@ public class GestionOS {
     }
 
     public static void printMostrarArticulos(List lista) {
-        // todo
-        System.out.println("Lista de clientes");
+        System.out.println("Lista de articulos");
         System.out.println("---------------------");
 
         for (int i = 0; i < lista.size(); i++) {
@@ -127,19 +128,45 @@ public class GestionOS {
         return parametros;
     }
 
+    public static void clienteCreado(Boolean creado) {
+        if (creado) {
+            System.out.println("Se ha creado el cliente");
+        } else {
+            System.err.println("Ha habido un error al crear el cliente");
+        }
+    }
+
     // Sub menu para mostrar los clientes existente
-    public static void printMostrarClientes() {
-        // todo
+    public static void printMostrarClientes(List lista) {
+        System.out.println("Lista de clientes");
+        System.out.println("---------------------");
+
+        for (int i = 0; i < lista.size(); i++) {
+            System.out.println(lista.get(i));
+            System.out.println("---------------------");
+        }
     }
 
     // Sub menu para mostrar los clientes estandard
-    public static void printMostrarClientesEstandard() {
-        // todo
+    public static void printMostrarClientesEstandard(List lista) {
+        System.out.println("Lista de clientes Estandard");
+        System.out.println("---------------------");
+
+        for (int i = 0; i < lista.size(); i++) {
+            System.out.println(lista.get(i));
+            System.out.println("---------------------");
+        }
     }
 
     // Sub menu para mostrar los clientes premium
-    public static void printMostrarClientesPremium() {
-        // todo
+    public static void printMostrarClientesPremium(List lista) {
+        System.out.println("Lista de clientes Premium");
+        System.out.println("---------------------");
+
+        for (int i = 0; i < lista.size(); i++) {
+            System.out.println(lista.get(i));
+            System.out.println("---------------------");
+        }
     }
 
     // Sub menu para la gestion de los pedidos
@@ -155,18 +182,95 @@ public class GestionOS {
     }
 
     // Sub menu para agregar un pedido
-    public static void printAgregarPedido() {
-        // todo
+    public static List printAgregarPedido() {
+        List parametros = new ArrayList();
+        boolean existe;
+        String codArticulo, emailCliente;
+        int cantidad;
+        LocalDate fecha = LocalDate.now();
+        boolean procesado = false;
+        System.out.println("\nIntroduzca la informacion del pedido: ");
+        System.out.println("--------------------------------------");
+        System.out.println("Introduzca el articulo");
+        codArticulo = getString();
+
+        // Comprobar si el articulo introducido existe
+        try {
+            Controlador.comprobarArticuloExiste(codArticulo);
+        } catch (Exception e) {
+            // si el articulo no existe, informamos al uruario y devolvemos una lista vacia
+            System.err.println("El articulo introducido no existe: " + e);
+            return parametros;
+        }
+
+        System.out.println("Introduzca el email del cliente");
+        emailCliente = getString();
+
+        // comprobar si el cliente existe
+        try {
+            Controlador.comprobarClienteExiste(emailCliente);
+        } catch (Exception e) {
+            // si el cliente no existe, informamos al usuario y velvolemos una lista vacia
+            System.err.println("el cliente introducido no existe: " + e);
+            return parametros;
+        }
+
+        //si el cliente y el articulo existen, procedemos a crear el pedido
+        System.out.println("Introduzca la cantidad de articulos");
+        cantidad = getInt();
+        parametros.add(codArticulo);
+        parametros.add(emailCliente);
+        parametros.add(cantidad);
+        parametros.add(fecha);
+        parametros.add(procesado);
+
+
+        return parametros;
+    }
+
+    public static void pedidoCreado(Boolean creado) {
+        if (creado) {
+            System.out.println("Se ha creado el pedido");
+        } else {
+            System.err.println("Ha habido un error al crear el cliente");
+        }
     }
 
     // Sub menu para eliminar un pedido
-    public static void printEliminarPedido() {
-        // todo
+    public static int printEliminarPedido() throws Exception {
+        int numPedido = 0;
+        boolean existe;
+        System.out.println("Introduzca el numero de pedido a borrar");
+        numPedido = getInt();
+        try {
+            existe = Controlador.pedidoExiste(numPedido);
+            if (!existe) {
+                throw new PedidoNoExisteException("Ese pedido no existe, compruebe el numero");
+            }
+        } catch (PedidoNoExisteException e){
+            System.err.println(e);
+            Controlador.mostrarMenuPrincipal();
+        }
+        return numPedido;
+    }
+
+    public static void pedidoEliminado(boolean eliminado) {
+        if (eliminado) {
+            System.out.println("se ha eliminado el pedido exitosamente");
+        } else {
+            System.err.println("Ha ocurrido un error al eliminar el pedido");
+        }
     }
 
     // Sub menu para mostrar pedidos por enviar
-    public static void printMostrarPedidosPendientes() {
+    public static void printMostrarPedidosPendientes(List lista) {
         //todo
+        System.out.println("Mostrando pedidos pendientes de envio");
+        System.out.println("-------------------------------------");
+        for (int i = 0; i < lista.size(); i++) {
+            System.out.println(lista.get(i));
+            System.out.println("---------------------");
+        }
     }
 
     // Sub menu para mostrar los pedidos enviados
@@ -207,6 +311,7 @@ public class GestionOS {
         try {
             numero = Integer.parseInt(scanner.nextLine());
         } catch (Exception e){
+            // todo error personalizado
             System.err.println(e);
         }
         return numero;
@@ -219,6 +324,8 @@ public class GestionOS {
         try {
         numero = Double.parseDouble(scanner.nextLine());
         } catch (Exception e){
+
+            // todo error personalizado
             System.err.println(e);
     }
         return numero;

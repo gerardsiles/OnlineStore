@@ -2,6 +2,9 @@ package controlador;
 
 
 
+import Excepciones.ArticuloNoExisteException;
+import Excepciones.ClienteNoExisteException;
+import modelo.ArrayDatos;
 import modelo.Datos;
 import vista.GestionOS;
 
@@ -60,6 +63,12 @@ public class Controlador {
         creado = Datos.crearArticulo(parametros);
         GestionOS.articuloCreado(creado);
     }
+    public static void comprobarArticuloExiste(String codArticulo) throws ArticuloNoExisteException {
+        boolean existe = Datos.articuloExiste(codArticulo);
+        if (!existe) {
+            throw new ArticuloNoExisteException();
+        }
+    }
 
     public static void mostrarArticulos() {
         // Crear una array temporal para recibir articulos
@@ -88,15 +97,16 @@ public class Controlador {
 
     // metodo para agregar un cliente
     public static void agregarCliente() {
-        //todo
+        boolean creado = false;
         List<Object> parametros;
         parametros = GestionOS.printAgregarCliente();
 
         // llamar al metodo en datos para crear el cliente
-        if (!parametros.isEmpty()){
-            Datos.crearCliente(parametros);
+        if (!parametros.isEmpty()) {
+            creado = Datos.crearCliente(parametros);
+            GestionOS.clienteCreado(creado);
         }
-        // enviar ok a vista o fail
+
     }
 
     public static boolean comprobarClienteExiste(String email) {
@@ -105,25 +115,27 @@ public class Controlador {
 
     // metodo para mostrar los clientes
     public static void mostrarClientes() {
-        //todo
-        // llamar al metodo en datos
-        // enviar a vista
+        List lista = Datos.recibirDatosClientes();
+        GestionOS.printMostrarClientes(lista);
     }
 
     // metodo para mostrar clientes estandard
     public static void mostrarClientesEstandard() {
-        // todo
+        List lista = Datos.recibirDatosClientesEstandard();
+        GestionOS.printMostrarClientesEstandard(lista);
     }
 
     public static void mostrarClientesPremium() {
-        // todo
+        List lista = Datos.recibirDatosClientesPremium();
+        GestionOS.printMostrarClientesPremium(lista);
     }
 
     // FIN GESTION DE CLIENTES
 
+
     //  GESTION DE PEDIDOS
     private static void gestionDePedidos() throws Exception {
-        GestionOS.printGesionPedidos();
+        opcion = GestionOS.printGesionPedidos();
         performActionPedido(opcion);
     }
 
@@ -139,18 +151,44 @@ public class Controlador {
     }
 
     // metodo para agregar un pedido
-    public static void agregarPedido() {
-        // todo
+    public static void agregarPedido(){
+        boolean pedidoCreado = false;
+        List parametros = GestionOS.printAgregarPedido();
+
+        // comprobar que los parametros no esten vacios
+        if (!parametros.isEmpty()) {
+            // si no estan vacios, creamos el pedido
+            pedidoCreado = Datos.crearDatosPedido(parametros);
+        }
+
+    }
+
+    public static boolean pedidoExiste(int numPedido) {
+        boolean existe = Datos.pedidoExiste(numPedido);
+        return existe;
     }
 
     // metodo para eliminar un pedido
-    public static void eliminarPedido() {
-        // todo
+    public static void eliminarPedido() throws Exception {
+        int numPedido = 0;
+        boolean pedidoEliminado = false;
+
+        // recibir el número del pedido a ser borrado
+        numPedido = GestionOS.printEliminarPedido();
+
+        pedidoEliminado = Datos.eliminarPedido(numPedido);
+
+        GestionOS.pedidoEliminado(pedidoEliminado);
+
     }
 
     // metodo para mostrar los pedidos pendientes de envio
     public static void mostrarPedidosPendientes() {
-        // todo
+        List lista = new ArrayList<>();
+        // llenar la lista con los pedidos pendientes
+        lista = Datos.recibirDatosPedidosPendientes();
+        // enviar la lista a vista
+        GestionOS.printMostrarPedidosPendientes(lista);
     }
 
     // metodo para mostrar los pedidos enviados

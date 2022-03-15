@@ -1,6 +1,7 @@
 package modelo;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 
 public class Pedido {
@@ -32,7 +33,7 @@ public class Pedido {
         this.numeroDePedido = numeroDePedido;
     }
 
-    public Articulo getArticulo() {
+    public Articulo getArticulos() {
         return articulo;
     }
 
@@ -73,6 +74,14 @@ public class Pedido {
 
     // Metodos de clase
 
+    // recibir el untimo numero de pedido
+    public static int recibirNumeroPedido() {
+        int numeroUltimoPedido = 0;
+        ArrayList<Pedido> pedido = ArrayDatos.getPedidos();
+        // Accede a los pedidos, en la ultima posicion, y recibe el numero de esa reserva
+        numeroUltimoPedido = (pedido.get(pedido.size() - 1).getNumeroDePedido()) + 1;
+        return numeroUltimoPedido;
+    }
     // Comprobar si el pedido esta procesado
     // pedido procesado y pedido enviado no es lo mismo?
     public boolean isProcesado() {

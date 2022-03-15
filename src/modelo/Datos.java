@@ -3,6 +3,7 @@ import controlador.Controlador;
 import controlador.OnlineStore;
 
 import java.lang.reflect.Array;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,11 +24,16 @@ public class Datos {
         // agregarlo a la arraylist en main
         ArrayDatos.addArticulo(articulo);
         // enviar al controlador si el articulo se ha creado o no
-        return ArrayDatos.articuloExiste(articulo);
+        return ArrayDatos.articuloExiste(parametros.get(0).toString());
+    }
+
+    public static boolean articuloExiste(String codArticulo) {
+        boolean existe;
+        existe = ArrayDatos.articuloExiste(codArticulo);
+        return existe;
     }
 
     public static List listarArticulos() {
-        //todo
         List lista = ListaArticulos.getArticulos();
         return lista;
     }
@@ -48,74 +54,90 @@ public class Datos {
         }
         return existe;
     }
-    public static void crearCliente(List<Object> parametros) {
-        //todo
+    public static boolean crearCliente(List<Object> parametros) {
+        boolean clienteExiste = false;
         if (parametros.get(0).equals(1)) {
             // crear cliente estandard
-            ClienteEstandard ce = new ClienteEstandard(parametros.get(1).toString(),parametros.get(2).toString(),
+            Cliente ce = new ClienteEstandard(parametros.get(1).toString(),parametros.get(2).toString(),
                     parametros.get(3).toString(),parametros.get(4).toString());
-            ArrayDatos.addClienteEstandard(ce);
+            ArrayDatos.addCliente(ce);
+            clienteExiste = ArrayDatos.clienteExiste(ce);
         } else if (parametros.get(0).equals(2)) {
             // crear cliente premium
-            ClientePremium cp = new ClientePremium(parametros.get(1).toString(),parametros.get(2).toString(),
+            Cliente cp = new ClientePremium(parametros.get(1).toString(),parametros.get(2).toString(),
                     parametros.get(3).toString(),parametros.get(4).toString());
-            ArrayDatos.addClientePremium(cp);
+            ArrayDatos.addCliente(cp);
+            clienteExiste = ArrayDatos.clienteExiste(cp);
+
         }
         // Comprobar que el cliente se ha creado correctamente
         // enviar ok al controlador
+        return clienteExiste;
     }
 
-    public void recibirDatosClientes() {
+    public static List recibirDatosClientes() {
         //todo
-        // crear metodo en lista
-        // override en listaClientes
-        // llamar al metodo
-        // enviarlo al controlador
+        List lista = ListaClientes.listarClientes();
+        return lista;
     }
 
-    public void recibirDatosClientesEstandard() {
-        //todo
-        // override en listaClientes
-        // llamar al metodo
-        // enviarlo al controlador
+    public static List recibirDatosClientesEstandard() {
+        List lista = ListaClientes.listarClientesEstandard();
+        return lista;
     }
 
-    public void recibirDatosClientesPremium() {
-        //todo
-        // override en listaClientes
-        // llamar al metodo
-        // enviarlo al controlador
+    public static List recibirDatosClientesPremium() {
+        List lista = ListaClientes.listarClientesPremium();
+        return lista;
     }
 
     // FIN GESTION CLIENTES
 
     // GESTION PEDIDOS
-    public static void crearDatosPedido() {
-        //todo
-        // conseguir el articulo
-        // conseguir el cliente
-        // crear nuevo pedido
+    public static boolean crearDatosPedido(List parametros) {
+        boolean existe = false;
+        Articulo articulo = ArrayDatos.getArticulo((String)parametros.get(0));
+        Cliente cliente = ArrayDatos.getCliente((String)parametros.get(1));
+        // creamos nuevo pedido
+        // el numero de pedido se recibe automaticamente
+        Pedido pedido = new Pedido(Pedido.recibirNumeroPedido(), articulo,
+                cliente, (Integer)parametros.get(2), (LocalDate)parametros.get(3), (Boolean)parametros.get(4));
         // agregar datos al pedido
-        // agregar pedido a la arraylist
+        ArrayDatos.addPedido(pedido);
+
+        // Comprobar que el pedido se haya creado correctamente
+        existe = ArrayDatos.pedidoExiste(pedido);
         // enviar informacion al controlador
+        return existe;
     }
 
-    public static void eliminarPedido() {
+    public static Pedido getPedido(int numPedido) {
+        Pedido pedido = ArrayDatos.getPedido(numPedido);
+        return pedido;
+    }
+
+    // metodo para comprobar si un pedido existe
+    public static boolean pedidoExiste(int numPedido) {
+        Pedido pedido = ArrayDatos.getPedido(numPedido);
+        boolean existe = ArrayDatos.pedidoExiste(pedido);
+        return existe;
+    }
+
+    // metodo para eliminar un pedido existente
+    public static boolean eliminarPedido(int numPedido) {
         //todo
-        // recibir numero de pedido
-        // buscar pedido en la arraylist
-        // informar si encontrado o no
-        // si encontrado enviar informacion pedido
-        // confirmar eliminar
-        // eliminar o cancelar
-
+        boolean eliminado = false;
+        eliminado = ArrayDatos.eliminarPedido(numPedido);
+        return eliminado;
     }
 
-    public static void recibirDatosPedidosPendientes() {
+    public static List recibirDatosPedidosPendientes() {
         //todo
         // recibir todos los pedidos WHERE enviado == FALSE
-        // meterlos en una nueva arraylist
+        List lista = ListaPedidos.getPedidosPendientes();
         // enviar arraylist a controlador
+        //System.out.println(lista);
+        return lista;
     }
 
     public static void recibirDatosPedidosEnviados() {
