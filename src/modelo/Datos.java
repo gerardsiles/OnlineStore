@@ -1,10 +1,7 @@
 package modelo;
-import controlador.Controlador;
-import controlador.OnlineStore;
 
-import java.lang.reflect.Array;
+
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -15,6 +12,7 @@ public class Datos {
     public static void cargarDatos() {
         ArrayDatos.cargarDatos();
     }
+
     public static boolean crearArticulo(List<Object> parametros) {
 
         // crear un nuevo objeto de tipo Articulo
@@ -42,13 +40,9 @@ public class Datos {
     // GESTION CLIENTES
     public static boolean clienteExiste(String email) {
         boolean existe = false;
-        for (ClienteEstandard cl : ArrayDatos.getClientesEstandard()) {
-            if (cl.getEmail().equals(email)){
-                existe = true;
-            }
-        }
-        for (ClientePremium cp : ArrayDatos.getClientesPremium()) {
-            if (cp.getEmail().equals(email)){
+
+        for (Cliente cliente : ArrayDatos.getClientes()) {
+            if (cliente.getEmail().equals(email)) {
                 existe = true;
             }
         }

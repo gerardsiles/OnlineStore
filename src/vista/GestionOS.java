@@ -1,6 +1,7 @@
 package vista;
 
-import Excepciones.PedidoNoExisteException;
+import controlador.ArticuloNoExisteException;
+import controlador.PedidoNoExisteException;
 import controlador.Controlador;
 
 import java.time.LocalDate;
@@ -33,6 +34,7 @@ public class GestionOS {
     }
 
     public static List printAgregarArticulo() {
+        boolean existe;
         String codigo, descripcion;
         double pvp, envio;
         int tiempo;
@@ -40,19 +42,29 @@ public class GestionOS {
         // pedir informacion del artiulo y guardarlo en variables locales
         System.out.println("Introduzca el codigo del producto");
         codigo = getString();
-        parametros.add(codigo);
-        System.out.println("Introduzca la descripcion del articulo:");
-        descripcion = getString();
-        parametros.add(descripcion);
-        System.out.println("Introduzca el precio de venta:");
-        pvp = getDouble();
-        parametros.add(pvp);
-        System.out.println("Introduzca los gastos de envio:");
-        envio = getDouble();
-        parametros.add(envio);
-        System.out.println("Introduzca el tiempo de preparacion en minutos:");
-        tiempo = getInt();
-        parametros.add(tiempo);
+        try {
+            existe = Controlador.comprobarArticuloExiste(codigo);
+            if (existe) {
+                throw new ArticuloNoExisteException("Este articulo ya existe");
+            } else {
+                // si el articulo no existe, continuamos creandolo
+                parametros.add(codigo);
+                System.out.println("Introduzca la descripcion del articulo:");
+                descripcion = getString();
+                parametros.add(descripcion);
+                System.out.println("Introduzca el precio de venta:");
+                pvp = getDouble();
+                parametros.add(pvp);
+                System.out.println("Introduzca los gastos de envio:");
+                envio = getDouble();
+                parametros.add(envio);
+                System.out.println("Introduzca el tiempo de preparacion en minutos:");
+                tiempo = getInt();
+                parametros.add(tiempo);
+            }
+        } catch (ArticuloNoExisteException e) {
+            System.err.println(e);
+        }
         return parametros;
     }
     public static void articuloCreado(Boolean creado) {
@@ -105,7 +117,7 @@ public class GestionOS {
         existe = Controlador.comprobarClienteExiste(email);
         // si el cliente ya existe, informar de ello
         if (existe) {
-            System.out.println("El cliente ya existe.");
+            System.err.println("El cliente ya existe.");
         } else { // si no existe, crear nuevo cliente
             parametros.add(tipoDeCliente);
             System.out.println("El cliente no existe, procediendo a crear un nuevo cliente");
@@ -262,7 +274,6 @@ public class GestionOS {
 
     // Sub menu para mostrar pedidos por enviar
     public static void printMostrarPedidosPendientes(List lista) {
-        //todo
         System.out.println("Mostrando pedidos pendientes de envio");
         System.out.println("-------------------------------------");
         for (int i = 0; i < lista.size(); i++) {

@@ -1,4 +1,4 @@
-package Excepciones;
+package controlador;
 
 public class ClienteNoExisteException extends Exception{
 

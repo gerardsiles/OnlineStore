@@ -2,9 +2,6 @@ package controlador;
 
 
 
-import Excepciones.ArticuloNoExisteException;
-import Excepciones.ClienteNoExisteException;
-import modelo.ArrayDatos;
 import modelo.Datos;
 import vista.GestionOS;
 
@@ -60,14 +57,14 @@ public class Controlador {
         List<Object> parametros = new ArrayList<Object>();
         parametros = GestionOS.printAgregarArticulo();
         // enviar informacion a Datos
-        creado = Datos.crearArticulo(parametros);
+        if (!parametros.isEmpty()) {
+            creado = Datos.crearArticulo(parametros);
+        }
         GestionOS.articuloCreado(creado);
     }
-    public static void comprobarArticuloExiste(String codArticulo) throws ArticuloNoExisteException {
+    public static boolean comprobarArticuloExiste(String codArticulo) throws ArticuloNoExisteException {
         boolean existe = Datos.articuloExiste(codArticulo);
-        if (!existe) {
-            throw new ArticuloNoExisteException();
-        }
+        return existe;
     }
 
     public static void mostrarArticulos() {
@@ -110,6 +107,7 @@ public class Controlador {
     }
 
     public static boolean comprobarClienteExiste(String email) {
+
         return Datos.clienteExiste(email);
     }
 
