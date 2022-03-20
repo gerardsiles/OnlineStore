@@ -30,7 +30,7 @@ public abstract class Cliente {
 
     public static boolean clienteExiste(String email) {
         boolean existe = false;
-        for (Cliente cliente : ArrayDatos.getClientes()) {
+        for (Cliente cliente : ListaClientes.getClientes()) {
             if (cliente.getEmail().equals(email)) {
                 existe = true;
             }
@@ -39,9 +39,6 @@ public abstract class Cliente {
     }
 
     public abstract boolean tipoDeCliente (String email); //  implemented in override in childs
-    // llamar a cliente estandard para ver si existe alli
-    // si no existe, llamar a cliente premium para ver si existe alli
-    // si no existe, informar de que el cliente no existe
 
     public abstract double cuotaAnual(); //  implemented in override in childs
 

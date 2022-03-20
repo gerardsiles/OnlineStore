@@ -79,7 +79,7 @@ public class Pedido {
     // recibir el untimo numero de pedido
     public static int recibirNumeroPedido() {
         int numeroUltimoPedido = 0;
-        ArrayList<Pedido> pedido = ArrayDatos.getPedidos();
+        ArrayList<Pedido> pedido = ListaPedidos.getPedidos();
         // Accede a los pedidos, en la ultima posicion, y recibe el numero de esa reserva
         numeroUltimoPedido = (pedido.get(pedido.size() - 1).getNumeroDePedido()) + 1;
         return numeroUltimoPedido;

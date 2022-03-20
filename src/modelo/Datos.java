@@ -7,10 +7,11 @@ import java.util.List;
 
 public class Datos {
     // GESTION ARTICULOS
-    private static ArrayDatos baseDeDatos = new ArrayDatos();
 
     public static void cargarDatos() {
-        ArrayDatos.cargarDatos();
+        ListaArticulos.cargarDatosArticulos();
+        ListaClientes.cargarDatosClientes();
+        ListaPedidos.cargarDatosPedidos();
     }
 
     public static boolean crearArticulo(List<Object> parametros) {
@@ -19,16 +20,18 @@ public class Datos {
         Articulo articulo = new Articulo(parametros.get(0).toString(),parametros.get(1).toString(),
                 (Double)parametros.get(2), (Double)parametros.get(3), (Integer)parametros.get(4));
 
-        // agregarlo a la arraylist en main
-        ArrayDatos.addArticulo(articulo);
+        // Comprobar si el articulo existe antes de agregarlo
+        if (!ListaArticulos.articuloExiste(parametros.get(0).toString())){
+            // agregarlo a la arraylist en main
+            ListaArticulos.addArticulo(articulo);
+        }
+
         // enviar al controlador si el articulo se ha creado o no
-        return ArrayDatos.articuloExiste(parametros.get(0).toString());
+        return ListaArticulos.articuloExiste(parametros.get(0).toString());
     }
 
     public static boolean articuloExiste(String codArticulo) {
-        boolean existe;
-        existe = ArrayDatos.articuloExiste(codArticulo);
-        return existe;
+        return ListaArticulos.articuloExiste(codArticulo);
     }
 
     public static List listarArticulos() {
@@ -38,30 +41,26 @@ public class Datos {
     // FIN GESTION ARTICULOS
 
     // GESTION CLIENTES
-    public static boolean clienteExiste(String email) {
-        boolean existe = false;
 
-        for (Cliente cliente : ArrayDatos.getClientes()) {
-            if (cliente.getEmail().equals(email)) {
-                existe = true;
-            }
-        }
-        return existe;
+    // comprobar si el cliente existe
+    public static boolean clienteExiste(String email) {
+        return ListaClientes.clienteExiste(ListaClientes.getCliente(email));
     }
+
     public static boolean crearCliente(List<Object> parametros) {
         boolean clienteExiste = false;
         if (parametros.get(0).equals(1)) {
             // crear cliente estandard
             Cliente ce = new ClienteEstandard(parametros.get(1).toString(),parametros.get(2).toString(),
                     parametros.get(3).toString(),parametros.get(4).toString());
-            ArrayDatos.addCliente(ce);
-            clienteExiste = ArrayDatos.clienteExiste(ce);
+            ListaClientes.addCliente(ce);
+            clienteExiste = ListaClientes.clienteExiste(ce);
         } else if (parametros.get(0).equals(2)) {
             // crear cliente premium
             Cliente cp = new ClientePremium(parametros.get(1).toString(),parametros.get(2).toString(),
                     parametros.get(3).toString(),parametros.get(4).toString());
-            ArrayDatos.addCliente(cp);
-            clienteExiste = ArrayDatos.clienteExiste(cp);
+            ListaClientes.addCliente(cp);
+            clienteExiste = ListaClientes.clienteExiste(cp);
 
         }
         // Comprobar que el cliente se ha creado correctamente
@@ -90,8 +89,8 @@ public class Datos {
     // GESTION PEDIDOS
     public static boolean crearDatosPedido(List parametros) {
         boolean existe = false;
-        Articulo articulo = ArrayDatos.getArticulo((String)parametros.get(0));
-        Cliente cliente = ArrayDatos.getCliente((String)parametros.get(1));
+        Articulo articulo = ListaArticulos.getArticulo((String)parametros.get(0));
+        Cliente cliente = ListaClientes.getCliente((String)parametros.get(1));
         // calcular el precio total del pedido
         // calcular los gastos de envio
         // calcular si tiene descuento al ser cliente premiuem
@@ -100,30 +99,30 @@ public class Datos {
         Pedido pedido = new Pedido(Pedido.recibirNumeroPedido(), articulo,
                 cliente, (Integer)parametros.get(2), (LocalDate)parametros.get(3), (Boolean)parametros.get(4));
         // agregar datos al pedido
-        ArrayDatos.addPedido(pedido);
+        ListaPedidos.addPedido(pedido);
 
         // Comprobar que el pedido se haya creado correctamente
-        existe = ArrayDatos.pedidoExiste(pedido);
+        existe = ListaPedidos.pedidoExiste(pedido);
         // enviar informacion al controlador
         return existe;
     }
 
     public static Pedido getPedido(int numPedido) {
-        Pedido pedido = ArrayDatos.getPedido(numPedido);
+        Pedido pedido = ListaPedidos.getPedido(numPedido);
         return pedido;
     }
 
     // metodo para comprobar si un pedido existe
     public static boolean pedidoExiste(int numPedido) {
-        Pedido pedido = ArrayDatos.getPedido(numPedido);
-        boolean existe = ArrayDatos.pedidoExiste(pedido);
+        Pedido pedido = ListaPedidos.getPedido(numPedido);
+        boolean existe = ListaPedidos.pedidoExiste(pedido);
         return existe;
     }
 
     // metodo para eliminar un pedido existente
     public static boolean eliminarPedido(int numPedido) {
         boolean eliminado = false;
-        eliminado = ArrayDatos.eliminarPedido(numPedido);
+        eliminado = ListaPedidos.eliminarPedido(numPedido);
         return eliminado;
     }
 
