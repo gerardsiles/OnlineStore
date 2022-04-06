@@ -1,11 +1,18 @@
 package modelo;
 
 
+import java.math.BigDecimal;
+
 public class ClienteEstandard extends Cliente {
 
+    // Contructor
+    public ClienteEstandard() {}
     public ClienteEstandard(String nombre, String domicilio, String NIF, String email) {
         super(nombre, domicilio, NIF, email);
+        super.setCuota(0);
+        super.setCuota(0);
     }
+
 
 
     public boolean tipoDeCliente(String email) {
@@ -39,7 +46,8 @@ public class ClienteEstandard extends Cliente {
                 "Nombre: " + this.getNombre() + "\n" +
                 "Domicilio: " + this.getDomicilio() + "\n" +
                 "NIF: " + this.getNIF() + "\n" +
-                "Email: " + this.getEmail() + "\n"
-                ;
+                "Email: " + this.getEmail() + "\n" +
+                "Cuota: " + this.getCuota() + "\n" +
+                "Descuento en el envio: " + this.getDescuento();
     }
 }

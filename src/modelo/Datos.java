@@ -1,16 +1,23 @@
 package modelo;
 
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
 
 public class Datos {
+    // Instanciar las implementaciones del DAO
+    private ClienteDAOImpl cliente = new ClienteDAOImpl();
+
+    // constructor
+    public Datos() {
+    }
+
     // GESTION ARTICULOS
 
-    public static void cargarDatos() {
+    public void cargarDatos() {
         ListaArticulos.cargarDatosArticulos();
-        ListaClientes.cargarDatosClientes();
         ListaPedidos.cargarDatosPedidos();
     }
 
@@ -43,44 +50,42 @@ public class Datos {
     // GESTION CLIENTES
 
     // comprobar si el cliente existe
-    public static boolean clienteExiste(String email) {
-        return ListaClientes.clienteExiste(ListaClientes.getCliente(email));
+    public boolean clienteExiste(String email) {
+        return cliente.clienteExiste(email);
     }
 
-    public static boolean crearCliente(List<Object> parametros) {
-        boolean clienteExiste = false;
+    public boolean crearCliente(List<Object> parametros) {
+        boolean clienteCreado = false;
+        // en la primera posicion de los parametros tenemos el tipo de cliente
         if (parametros.get(0).equals(1)) {
             // crear cliente estandard
-            Cliente ce = new ClienteEstandard(parametros.get(1).toString(),parametros.get(2).toString(),
+            Cliente clienteEstandard = new ClienteEstandard(parametros.get(1).toString(),parametros.get(2).toString(),
                     parametros.get(3).toString(),parametros.get(4).toString());
-            ListaClientes.addCliente(ce);
-            clienteExiste = ListaClientes.clienteExiste(ce);
+            cliente.addCliente(clienteEstandard);
+            clienteCreado = cliente.clienteExiste(parametros.get(1).toString());
         } else if (parametros.get(0).equals(2)) {
             // crear cliente premium
             Cliente cp = new ClientePremium(parametros.get(1).toString(),parametros.get(2).toString(),
                     parametros.get(3).toString(),parametros.get(4).toString());
-            ListaClientes.addCliente(cp);
-            clienteExiste = ListaClientes.clienteExiste(cp);
-
+            cliente.addCliente(cp);
+            clienteCreado = cliente.clienteExiste(parametros.get(1).toString());
         }
-        // Comprobar que el cliente se ha creado correctamente
-        // enviar ok al controlador
-        return clienteExiste;
+        // enviar si el cliente exista en la base de datos al controlador
+        return clienteCreado;
     }
 
-    public static List recibirDatosClientes() {
-        //todo
-        List lista = ListaClientes.listarClientes();
+    public List recibirDatosClientes() {
+        List lista = cliente.getClientes();
         return lista;
     }
 
-    public static List recibirDatosClientesEstandard() {
-        List lista = ListaClientes.listarClientesEstandard();
+    public List recibirDatosClientesEstandard() {
+        List lista = cliente.listarClientesEstandard();
         return lista;
     }
 
-    public static List recibirDatosClientesPremium() {
-        List lista = ListaClientes.listarClientesPremium();
+    public List recibirDatosClientesPremium() {
+        List lista = cliente.listarClientesPremium();
         return lista;
     }
 
@@ -91,10 +96,7 @@ public class Datos {
         boolean existe = false;
         Articulo articulo = ListaArticulos.getArticulo((String)parametros.get(0));
         Cliente cliente = ListaClientes.getCliente((String)parametros.get(1));
-        // calcular el precio total del pedido
-        // calcular los gastos de envio
-        // calcular si tiene descuento al ser cliente premiuem
-        // creamos nuevo pedido
+
         // el numero de pedido se recibe automaticamente
         Pedido pedido = new Pedido(Pedido.recibirNumeroPedido(), articulo,
                 cliente, (Integer)parametros.get(2), (LocalDate)parametros.get(3), (Boolean)parametros.get(4));

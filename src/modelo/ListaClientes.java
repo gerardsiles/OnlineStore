@@ -41,11 +41,11 @@ public class ListaClientes extends Lista<Cliente>{
 
     public static List listarClientesPremium() {
         List lista = new ArrayList();
-           for(Cliente cliente : getClientes()) {
-               if (cliente instanceof ClientePremium) {
-                   lista.add(cliente);
-               }
-           }
+        for(Cliente cliente : getClientes()) {
+            if (cliente instanceof ClientePremium) {
+                lista.add(cliente);
+            }
+        }
         return lista;
     }
 

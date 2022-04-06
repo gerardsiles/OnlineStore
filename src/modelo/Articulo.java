@@ -58,10 +58,10 @@ public class Articulo{
 
     @Override
     public String toString() {
-      return "Codigo del producto:" + codigoProducto + "\n" +
-              "Descripcion: " + descripcion + "\n" +
-              "PVP: " + pvp + "\n" +
-              "Gastos de envio: " + gastosDeEnvio + "\n" +
-              "Tiempo de preparacion: " + tiempoDePreparacion + "\n";
+      return "Codigo del producto:" + this.codigoProducto + "\n" +
+              "Descripcion: " + this.descripcion + "\n" +
+              "PVP: " + this.pvp + "\n" +
+              "Gastos de envio: " + this.gastosDeEnvio + "\n" +
+              "Tiempo de preparacion: " + this.tiempoDePreparacion + "\n";
     }
 }

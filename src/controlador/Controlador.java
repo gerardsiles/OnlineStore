@@ -1,8 +1,8 @@
 package controlador;
 
-
-
+// importar modelo
 import modelo.Datos;
+// importar vista
 import vista.GestionOS;
 
 import java.util.ArrayList;
@@ -10,25 +10,29 @@ import java.util.List;
 
 
 public class Controlador {
+    private final Datos modelo;
+    private final GestionOS vista;
+    private int opcion = 0;
 
-    private static GestionOS vista;
-    private static Datos datos;
-    private static int opcion = 0;
-
+    // constructor
+    public Controlador(Datos modelo, GestionOS vista) {
+        this.modelo = modelo;
+        this.vista = vista;
+    }
 
     // MENU PRINCIPAL
-    public static void cargarDatos() {
-        Datos.cargarDatos();
+    public void cargarDatos() {
+        modelo.cargarDatos();
     }
     // Vista menu general
-    public static void mostrarMenuPrincipal() throws Exception {
-        opcion = GestionOS.printMenu();
+    public void mostrarMenuPrincipal() throws Exception {
+        opcion = vista.printMenu();
         performActionMenu(opcion);
     }
 
 
     // Accion del menu principal
-    public static void performActionMenu(int choice) throws Exception {
+    public void performActionMenu(int choice) throws Exception {
         switch (choice) {
             case 0 -> OnlineStore.setExitTrue();
             case 1 -> gestionArticulos();
@@ -38,13 +42,13 @@ public class Controlador {
     }
 
     // GESTION DE ARTICULOS
-    public static void gestionArticulos() throws Exception {
-        opcion = GestionOS.printGestionArticulos();
+    public void gestionArticulos() throws Exception {
+        opcion = vista.printGestionArticulos();
         performActionArticulo(opcion);
 
     }
 
-    public static void performActionArticulo(int choice) throws Exception {
+    public void performActionArticulo(int choice) throws Exception {
         switch (choice) {
             case 0 -> mostrarMenuPrincipal();
             case 1 -> agregarArticulo();
@@ -52,37 +56,37 @@ public class Controlador {
         }
     }
 
-    public static void agregarArticulo() {
+    public void agregarArticulo() {
         boolean creado = false;
-        List<Object> parametros = new ArrayList<Object>();
-        parametros = GestionOS.printAgregarArticulo();
+        List<Object> parametros = new ArrayList<>();
+        parametros = vista.printAgregarArticulo();
         // enviar informacion a Datos
         if (!parametros.isEmpty()) {
             creado = Datos.crearArticulo(parametros);
         }
-        GestionOS.articuloCreado(creado);
+        vista.articuloCreado(creado);
     }
     public static boolean comprobarArticuloExiste(String codArticulo) throws ArticuloNoExisteException {
         boolean existe = Datos.articuloExiste(codArticulo);
         return existe;
     }
 
-    public static void mostrarArticulos() {
+    public void mostrarArticulos() {
         // Crear una array temporal para recibir articulos
         List lista = Datos.listarArticulos();;
         // Llenar la array con los articulos
         // Llamar a la vista para mostrar los articulos
-        GestionOS.printMostrarArticulos(lista);
+        vista.printMostrarArticulos(lista);
     }
     // FIN GESTION DE ARTICULOS
 
     // GESTION DE CLIENTES
-    private static void gestionClientes() throws Exception {
-        opcion = GestionOS.printGesionClientes();
+    private void gestionClientes() throws Exception {
+        opcion = vista.printGesionClientes();
         performActionCliente(opcion);
     }
 
-    public static void performActionCliente(int choice) throws Exception {
+    public void performActionCliente(int choice) throws Exception {
         switch (choice) {
             case 0 -> mostrarMenuPrincipal();
             case 1 -> agregarCliente();
@@ -93,52 +97,54 @@ public class Controlador {
     }
 
     // metodo para agregar un cliente
-    public static void agregarCliente() {
+    public void agregarCliente() {
         boolean creado = false;
+        boolean existe = false;
         List<Object> parametros;
-        parametros = GestionOS.printAgregarCliente();
+        parametros = vista.printAgregarCliente();
 
-        // llamar al metodo en datos para crear el cliente
+        // comprobar que nos lleguen parametros de entrada
         if (!parametros.isEmpty()) {
-            creado = Datos.crearCliente(parametros);
-            GestionOS.clienteCreado(creado);
+            // comprobar si el cliente introducido ya existe
+            existe = modelo.clienteExiste(parametros.get(1).toString());
+            if(!existe) {
+                creado = modelo.crearCliente(parametros);
+                vista.clienteCreado(creado);
+            }
         }
 
     }
 
-    public static boolean comprobarClienteExiste(String email) {
 
-        return Datos.clienteExiste(email);
-    }
 
     // metodo para mostrar los clientes
-    public static void mostrarClientes() {
-        List lista = Datos.recibirDatosClientes();
-        GestionOS.printMostrarClientes(lista);
+    public void mostrarClientes() {
+        List lista = modelo.recibirDatosClientes();
+        vista.printMostrarClientes(lista);
     }
 
     // metodo para mostrar clientes estandard
-    public static void mostrarClientesEstandard() {
-        List lista = Datos.recibirDatosClientesEstandard();
-        GestionOS.printMostrarClientesEstandard(lista);
+    public void mostrarClientesEstandard() {
+        List lista = modelo.recibirDatosClientesEstandard();
+        vista.printMostrarClientesEstandard(lista);
     }
 
-    public static void mostrarClientesPremium() {
-        List lista = Datos.recibirDatosClientesPremium();
-        GestionOS.printMostrarClientesPremium(lista);
+    public void mostrarClientesPremium() {
+        List lista = modelo.recibirDatosClientesPremium();
+        vista.printMostrarClientesPremium(lista);
     }
 
     // FIN GESTION DE CLIENTES
 
 
     //  GESTION DE PEDIDOS
-    private static void gestionDePedidos() throws Exception {
-        opcion = GestionOS.printGesionPedidos();
+    private void gestionDePedidos() throws Exception {
+        opcion = vista.printGesionPedidos();
         performActionPedido(opcion);
     }
 
     // Sub menu para los pedidos
-    public static void performActionPedido(int choice) throws Exception {
+    public  void performActionPedido(int choice) throws Exception {
         switch (choice) {
             case 0 -> mostrarMenuPrincipal();
             case 1 -> agregarPedido();
@@ -149,9 +155,9 @@ public class Controlador {
     }
 
     // metodo para agregar un pedido
-    public static void agregarPedido(){
+    public void agregarPedido() throws Exception {
         boolean pedidoCreado = false;
-        List parametros = GestionOS.printAgregarPedido();
+        List parametros = vista.printAgregarPedido();
 
         // comprobar que los parametros no esten vacios
         if (!parametros.isEmpty()) {
@@ -167,36 +173,35 @@ public class Controlador {
     }
 
     // metodo para eliminar un pedido
-    public static void eliminarPedido() throws Exception {
+    public void eliminarPedido() throws Exception {
         int numPedido = 0;
         boolean pedidoEliminado = false;
 
         // recibir el número del pedido a ser borrado
-        numPedido = GestionOS.printEliminarPedido();
+        numPedido = vista.printEliminarPedido();
 
         pedidoEliminado = Datos.eliminarPedido(numPedido);
 
-        GestionOS.pedidoEliminado(pedidoEliminado);
+        vista.pedidoEliminado(pedidoEliminado);
 
     }
 
     // metodo para mostrar los pedidos pendientes de envio
-    public static void mostrarPedidosPendientes() {
+    public void mostrarPedidosPendientes() {
         List lista = new ArrayList<>();
         // llenar la lista con los pedidos pendientes
         lista = Datos.recibirDatosPedidosPendientes();
         // enviar la lista a vista
-        GestionOS.printMostrarPedidosPendientes(lista);
+        vista.printMostrarPedidosPendientes(lista);
     }
 
     // metodo para mostrar los pedidos enviados
-    public static void mostrarPedidosEnviados() {
-        // todo
+    public void mostrarPedidosEnviados() {
         List lista = new ArrayList<>();
         // llenar la lista con los pedidos enviados
         lista = Datos.recibirDatosPedidosEnviados();
         // enviar la lista a vista para ser impresa
-        GestionOS.printMostrarPedidosEnviados(lista);
+        vista.printMostrarPedidosEnviados(lista);
     }
 
     // FIN GESTION DE PEDIDOS

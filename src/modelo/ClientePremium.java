@@ -1,16 +1,18 @@
 package modelo;
 
-public class ClientePremium extends Cliente {
-    private final double cuota;
-    private final double descuento;
+import java.math.BigDecimal;
 
+public class ClientePremium extends Cliente {
+
+    // Constructor
+    public ClientePremium() {}
     public ClientePremium(String nombre, String domicilio, String NIF, String email) {
         super(nombre, domicilio, NIF, email);
-        this.cuota = 30;
-        this.descuento = 20;
+        super.setCuota(30);
+        super.setDescuento(20);
     }
 
-    // Get cliente?
+
 
     @Override
     public boolean tipoDeCliente(String email) {
@@ -20,7 +22,7 @@ public class ClientePremium extends Cliente {
 
     @Override
     public double cuotaAnual() {
-        return this.cuota * 12;
+        return getCuota();
     }
 
     @Override
@@ -36,8 +38,7 @@ public class ClientePremium extends Cliente {
                 "Domicilio: " + this.getDomicilio() + "\n" +
                 "NIF: " + this.getNIF() + "\n" +
                 "Email: " + this.getEmail() + "\n" +
-                "Cuota: " + this.cuota + "\n" +
-                "Descuento en el envio: " + this.descuento
-                ;
+                "Cuota: " + this.getCuota() + "\n" +
+                "Descuento en el envio: " + this.getDescuento();
     }
 }
