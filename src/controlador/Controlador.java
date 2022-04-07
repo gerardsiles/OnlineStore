@@ -60,21 +60,25 @@ public class Controlador {
         boolean creado = false;
         List<Object> parametros = new ArrayList<>();
         parametros = vista.printAgregarArticulo();
-        // enviar informacion a Datos
+        // enviar informacion a Datos si la informacion no esta vacia
         if (!parametros.isEmpty()) {
-            creado = Datos.crearArticulo(parametros);
+            // Comprobar si el articulo existe antes de crearlo
+            if (!modelo.articuloExiste(parametros.get(0).toString())){
+                creado = modelo.crearArticulo(parametros);
+            } else {
+                //todo
+                // trhow articuloExisteException
+                // print articulo ya existe
+            }
         }
         vista.articuloCreado(creado);
-    }
-    public static boolean comprobarArticuloExiste(String codArticulo) throws ArticuloNoExisteException {
-        boolean existe = Datos.articuloExiste(codArticulo);
-        return existe;
     }
 
     public void mostrarArticulos() {
         // Crear una array temporal para recibir articulos
-        List lista = Datos.listarArticulos();;
+        List lista = new ArrayList<>();
         // Llenar la array con los articulos
+        lista = modelo.listarArticulos();
         // Llamar a la vista para mostrar los articulos
         vista.printMostrarArticulos(lista);
     }

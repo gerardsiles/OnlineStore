@@ -2,7 +2,6 @@ package modelo;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ClienteDAOImpl extends ConexionMysql implements ClienteDAO {
@@ -112,7 +111,7 @@ public class ClienteDAOImpl extends ConexionMysql implements ClienteDAO {
             pstm.setString(4, cliente.getNIF());
             pstm.setDouble(5, cliente.getDescuento());
             pstm.setDouble(6, cliente.getCuota());
-            // Ejecutamos
+            // Ejecutamos statement
             pstm.executeUpdate();
             return true;
 
@@ -126,7 +125,7 @@ public class ClienteDAOImpl extends ConexionMysql implements ClienteDAO {
     public boolean clienteExiste(String email) {
         boolean existe = false;
 
-        try (PreparedStatement pstm = con.prepareStatement(SQL_GET_CLIENTE);){
+        try (PreparedStatement pstm = con.prepareStatement(SQL_GET_CLIENTE)){
             // declaramos que el email esta en la posicion 1
             pstm.setString(1, email);
             // intentamos lanzar la query

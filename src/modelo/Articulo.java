@@ -7,6 +7,8 @@ public class Articulo{
     private double gastosDeEnvio;
     private int tiempoDePreparacion;
 
+    // constructores
+    public Articulo(){};
     public Articulo(String codigoProducto, String descripcion, double pvp, double gastosDeEnvio, int tiempoDePreparacion) {
         this.codigoProducto = codigoProducto;
         this.descripcion = descripcion;

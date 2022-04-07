@@ -35,7 +35,6 @@ public class GestionOS {
     }
 
     public List printAgregarArticulo() {
-        boolean existe;
         String codigo, descripcion;
         double pvp, envio;
         int tiempo;
@@ -43,29 +42,21 @@ public class GestionOS {
         // pedir informacion del artiulo y guardarlo en variables locales
         System.out.println("Introduzca el codigo del producto");
         codigo = getString();
-        try {
-            existe = Controlador.comprobarArticuloExiste(codigo);
-            if (existe) {
-                throw new ArticuloNoExisteException("Este articulo ya existe");
-            } else {
-                // si el articulo no existe, continuamos creandolo
-                parametros.add(codigo);
-                System.out.println("Introduzca la descripcion del articulo:");
-                descripcion = getString();
-                parametros.add(descripcion);
-                System.out.println("Introduzca el precio de venta:");
-                pvp = getDouble();
-                parametros.add(pvp);
-                System.out.println("Introduzca los gastos de envio:");
-                envio = getDouble();
-                parametros.add(envio);
-                System.out.println("Introduzca el tiempo de preparacion en minutos:");
-                tiempo = getInt();
-                parametros.add(tiempo);
-            }
-        } catch (ArticuloNoExisteException e) {
-            System.err.println(e);
-        }
+        parametros.add(codigo);
+        System.out.println("Introduzca la descripcion del articulo:");
+        descripcion = getString();
+        parametros.add(descripcion);
+        System.out.println("Introduzca el precio de venta:");
+        pvp = getDouble();
+        parametros.add(pvp);
+        System.out.println("Introduzca los gastos de envio:");
+        envio = getDouble();
+        parametros.add(envio);
+        System.out.println("Introduzca el tiempo de preparacion en minutos:");
+        tiempo = getInt();
+        parametros.add(tiempo);
+
+        // Devolver al controlador los parametros para crear el articulo
         return parametros;
     }
     public void articuloCreado(Boolean creado) {

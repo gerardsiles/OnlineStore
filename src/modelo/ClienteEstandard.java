@@ -1,7 +1,7 @@
 package modelo;
 
 
-import java.math.BigDecimal;
+
 
 public class ClienteEstandard extends Cliente {
 
@@ -10,7 +10,7 @@ public class ClienteEstandard extends Cliente {
     public ClienteEstandard(String nombre, String domicilio, String NIF, String email) {
         super(nombre, domicilio, NIF, email);
         super.setCuota(0);
-        super.setCuota(0);
+        super.setDescuento(0);
     }
 
 

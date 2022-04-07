@@ -9,6 +9,7 @@ import java.util.List;
 public class Datos {
     // Instanciar las implementaciones del DAO
     private ClienteDAOImpl cliente = new ClienteDAOImpl();
+    private ArticuloDAOImpl articulo = new ArticuloDAOImpl();
 
     // constructor
     public Datos() {
@@ -21,28 +22,34 @@ public class Datos {
         ListaPedidos.cargarDatosPedidos();
     }
 
-    public static boolean crearArticulo(List<Object> parametros) {
+    public boolean crearArticulo(List<Object> parametros) {
 
         // crear un nuevo objeto de tipo Articulo
-        Articulo articulo = new Articulo(parametros.get(0).toString(),parametros.get(1).toString(),
+        Articulo articuloACrear = new Articulo(parametros.get(0).toString(),parametros.get(1).toString(),
                 (Double)parametros.get(2), (Double)parametros.get(3), (Integer)parametros.get(4));
 
         // Comprobar si el articulo existe antes de agregarlo
         if (!ListaArticulos.articuloExiste(parametros.get(0).toString())){
             // agregarlo a la arraylist en main
-            ListaArticulos.addArticulo(articulo);
+            articulo.addArticulo(articuloACrear);
         }
 
         // enviar al controlador si el articulo se ha creado o no
-        return ListaArticulos.articuloExiste(parametros.get(0).toString());
+        return articuloExiste(parametros.get(0).toString());
     }
 
-    public static boolean articuloExiste(String codArticulo) {
-        return ListaArticulos.articuloExiste(codArticulo);
+    // Comprobar si el articulo existe en la base de datos
+    public boolean articuloExiste(String codArticulo) {
+        boolean existe = false;
+        // comprobar si el resultado devuelto es not null
+        if (articulo.articuloExiste(codArticulo)) {
+            existe = true;
+        }
+        return existe;
     }
 
-    public static List listarArticulos() {
-        List lista = ListaArticulos.getArticulos();
+    public List listarArticulos() {
+        List lista = articulo.getArticulos();
         return lista;
     }
     // FIN GESTION ARTICULOS
