@@ -18,14 +18,14 @@ public class ClienteEstandard extends Cliente {
     public boolean tipoDeCliente(String email) {
         boolean encontrado = false;
         // retornar objeto return OnlineStore.getClientes().stream().filter(cliente -> email.equals(cliente.getEmail())).findFirst().orElse(null);
-        for (Cliente cliente : ListaClientes.getClientes()) {
-            if (cliente instanceof ClienteEstandard) {
-                if (cliente.getEmail().equals(email)) {
-                    encontrado = true;
-                }
-            }
-
-        }
+//        for (Cliente cliente : ListaClientes.getClientes()) {
+//            if (cliente instanceof ClienteEstandard) {
+//                if (cliente.getEmail().equals(email)) {
+//                    encontrado = true;
+//                }
+//            }
+//
+//        }
         return encontrado;
     }
 

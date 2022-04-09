@@ -21,9 +21,6 @@ public class Controlador {
     }
 
     // MENU PRINCIPAL
-    public void cargarDatos() {
-        modelo.cargarDatos();
-    }
     // Vista menu general
     public void mostrarMenuPrincipal() throws Exception {
         opcion = vista.printMenu();
@@ -160,21 +157,54 @@ public class Controlador {
 
     // metodo para agregar un pedido
     public void agregarPedido() throws Exception {
+        List parametros = new ArrayList<>();
         boolean pedidoCreado = false;
-        List parametros = vista.printAgregarPedido();
+        String codigoArticulo = "";
+        String emailCliente = "";
+        int cantidad = 0;
 
-        // comprobar que los parametros no esten vacios
-        if (!parametros.isEmpty()) {
-            // si no estan vacios, creamos el pedido
-            pedidoCreado = Datos.crearDatosPedido(parametros);
+        // recibir el codigo del articulo
+        try {
+            codigoArticulo = vista.printAgregarPedido();
+            // comprobar si el articulo existe
+            if (!modelo.articuloExiste(codigoArticulo)) {
+                // lanzar error si el articulo no existe
+                throw new ArticuloNoExisteException("Este articulo no existe");
+            } else {
+                parametros.add(codigoArticulo);
+            }
+        } catch (ArticuloNoExisteException ex) { // manejar la excepcion
+            System.err.println(ex);
+            mostrarMenuPrincipal();
         }
 
+        // recibir el email del cliente
+        try {
+            emailCliente = vista.printGetClientePedido();
+            // comprobar si el cliente existe
+            if (!modelo.clienteExiste(emailCliente)) {
+                // lanzar error si el cliente no existe
+                throw new ClienteNoExisteException("Este cliente no existe");
+            } else {
+                parametros.add(emailCliente);
+            }
+        } catch (ClienteNoExisteException ex) {
+            System.err.println(ex);
+            mostrarMenuPrincipal();
+        }
+
+        // recibir la cantidad
+        cantidad = vista.printGetCantidadPedido();
+        parametros.add(cantidad);
+
+
+        // Llamar al modelo para crear el pedido
+        pedidoCreado = modelo.crearDatosPedido(parametros);
+
+        // informar a la vista si se ha creado el pedido
+        vista.pedidoCreado(pedidoCreado);
     }
 
-    public static boolean pedidoExiste(int numPedido) {
-        boolean existe = Datos.pedidoExiste(numPedido);
-        return existe;
-    }
 
     // metodo para eliminar un pedido
     public void eliminarPedido() throws Exception {
@@ -184,8 +214,10 @@ public class Controlador {
         // recibir el número del pedido a ser borrado
         numPedido = vista.printEliminarPedido();
 
-        pedidoEliminado = Datos.eliminarPedido(numPedido);
+        // llamar al modelo para eliminar el pedido
+        pedidoEliminado = modelo.eliminarPedido(numPedido);
 
+        // informar si el pedido se ha eliminado
         vista.pedidoEliminado(pedidoEliminado);
 
     }
@@ -194,7 +226,7 @@ public class Controlador {
     public void mostrarPedidosPendientes() {
         List lista = new ArrayList<>();
         // llenar la lista con los pedidos pendientes
-        lista = Datos.recibirDatosPedidosPendientes();
+        lista = modelo.recibirDatosPedidosPendientes();
         // enviar la lista a vista
         vista.printMostrarPedidosPendientes(lista);
     }
@@ -203,7 +235,7 @@ public class Controlador {
     public void mostrarPedidosEnviados() {
         List lista = new ArrayList<>();
         // llenar la lista con los pedidos enviados
-        lista = Datos.recibirDatosPedidosEnviados();
+        lista = modelo.recibirDatosPedidosEnviados();
         // enviar la lista a vista para ser impresa
         vista.printMostrarPedidosEnviados(lista);
     }

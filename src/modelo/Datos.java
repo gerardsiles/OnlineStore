@@ -2,7 +2,10 @@ package modelo;
 
 
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 
@@ -10,18 +13,13 @@ public class Datos {
     // Instanciar las implementaciones del DAO
     private ClienteDAOImpl cliente = new ClienteDAOImpl();
     private ArticuloDAOImpl articulo = new ArticuloDAOImpl();
+    private PedidoDAOImpl pedido = new PedidoDAOImpl();
 
     // constructor
     public Datos() {
     }
 
     // GESTION ARTICULOS
-
-    public void cargarDatos() {
-        ListaArticulos.cargarDatosArticulos();
-        ListaPedidos.cargarDatosPedidos();
-    }
-
     public boolean crearArticulo(List<Object> parametros) {
 
         // crear un nuevo objeto de tipo Articulo
@@ -29,7 +27,7 @@ public class Datos {
                 (Double)parametros.get(2), (Double)parametros.get(3), (Integer)parametros.get(4));
 
         // Comprobar si el articulo existe antes de agregarlo
-        if (!ListaArticulos.articuloExiste(parametros.get(0).toString())){
+        if (!articulo.articuloExiste(parametros.get(0).toString())){
             // agregarlo a la arraylist en main
             articulo.addArticulo(articuloACrear);
         }
@@ -40,11 +38,7 @@ public class Datos {
 
     // Comprobar si el articulo existe en la base de datos
     public boolean articuloExiste(String codArticulo) {
-        boolean existe = false;
-        // comprobar si el resultado devuelto es not null
-        if (articulo.articuloExiste(codArticulo)) {
-            existe = true;
-        }
+        boolean existe = articulo.articuloExiste(codArticulo);
         return existe;
     }
 
@@ -55,7 +49,6 @@ public class Datos {
     // FIN GESTION ARTICULOS
 
     // GESTION CLIENTES
-
     // comprobar si el cliente existe
     public boolean clienteExiste(String email) {
         return cliente.clienteExiste(email);
@@ -99,52 +92,58 @@ public class Datos {
     // FIN GESTION CLIENTES
 
     // GESTION PEDIDOS
-    public static boolean crearDatosPedido(List parametros) {
-        boolean existe = false;
-        Articulo articulo = ListaArticulos.getArticulo((String)parametros.get(0));
-        Cliente cliente = ListaClientes.getCliente((String)parametros.get(1));
+    public boolean crearDatosPedido(List parametros) {
+        boolean existe;
+        Pedido nuevoPedido = new Pedido();
+        Articulo articuloPedido = articulo.getArticuloByID((String)parametros.get(0));
+        Cliente clientePedido = cliente.getClienteByEmail((String)parametros.get(1));
 
-        // el numero de pedido se recibe automaticamente
-        Pedido pedido = new Pedido(Pedido.recibirNumeroPedido(), articulo,
-                cliente, (Integer)parametros.get(2), (LocalDate)parametros.get(3), (Boolean)parametros.get(4));
+        // Declarar la fecha
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        java.sql.Timestamp dateSQL = new java.sql.Timestamp(date.getTime());
+        // Set valores del pedido
+        // el numero de pedido es autoincrement, no hace falta agregarlo
+        nuevoPedido.setArticulo(articuloPedido);
+        nuevoPedido.setCliente(clientePedido);
+        nuevoPedido.setCantidad((Integer)parametros.get(2));
+        nuevoPedido.setFecha(dateSQL);
+        nuevoPedido.setProcesado(false);
+
         // agregar datos al pedido
-        ListaPedidos.addPedido(pedido);
+        existe = pedido.addPedido(nuevoPedido);
 
-        // Comprobar que el pedido se haya creado correctamente
-        existe = ListaPedidos.pedidoExiste(pedido);
-        // enviar informacion al controlador
         return existe;
     }
 
-    public static Pedido getPedido(int numPedido) {
-        Pedido pedido = ListaPedidos.getPedido(numPedido);
-        return pedido;
+    public Pedido getPedido(int numPedido) {
+        Pedido pedidoADevolver = pedido.getPedido(numPedido);
+        return pedidoADevolver;
     }
 
-    // metodo para comprobar si un pedido existe
-    public static boolean pedidoExiste(int numPedido) {
-        Pedido pedido = ListaPedidos.getPedido(numPedido);
-        boolean existe = ListaPedidos.pedidoExiste(pedido);
-        return existe;
-    }
+
 
     // metodo para eliminar un pedido existente
-    public static boolean eliminarPedido(int numPedido) {
+    public boolean eliminarPedido(int numPedido) {
         boolean eliminado = false;
-        eliminado = ListaPedidos.eliminarPedido(numPedido);
+        eliminado = pedido.eliminarPedido(numPedido);
         return eliminado;
     }
 
-    public static List recibirDatosPedidosPendientes() {
+    public List recibirDatosPedidosPendientes() {
+        // actualizar los pedidos si se han enviado
+        pedido.actualizarPedidos();
         // recibir todos los pedidos WHERE enviado == FALSE
-        List lista = ListaPedidos.getPedidosPendientes();
+        List lista = pedido.getPedidosPendientes();
         // enviar arraylist a controlador
         return lista;
     }
 
-    public static List recibirDatosPedidosEnviados() {
+    public List recibirDatosPedidosEnviados() {
+        // actualizar los pedidos
+        pedido.actualizarPedidos();
         // recibir todos los pedidos enviados
-        List lista = ListaPedidos.getPedidosEnviados();
+        List lista = pedido.getPedidosEnviados();
         return lista;
     }
     // FIN GESTION PEDIDOS

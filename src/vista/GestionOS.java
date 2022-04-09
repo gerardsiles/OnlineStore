@@ -173,85 +173,60 @@ public class GestionOS {
     }
 
     // Sub menu para agregar un pedido
-    public List printAgregarPedido() throws Exception {
-        List<Object> parametros = new ArrayList<>();
-//        boolean articuloExiste, clienteExiste;
-//        String codArticulo, emailCliente;
-//        int cantidad;
-//        LocalDate fecha = LocalDate.now();
-//        boolean procesado = false;
-//        System.out.println("\nIntroduzca la informacion del pedido: ");
-//        System.out.println("--------------------------------------");
-//        System.out.println("Introduzca el articulo");
-//        codArticulo = getString();
-//
-//        // Comprobar si el articulo introducido existe
-//        try {
-//            articuloExiste = Controlador.comprobarArticuloExiste(codArticulo);
-//            if (!articuloExiste) {
-//                throw new ArticuloNoExisteException("Este articulo no existe");
-//            }
-//        }catch (ArticuloNoExisteException e) {
-//            // si el articulo no existe, informamos al uruario y devolvemos una lista vacia
-//            System.err.println(e);
-//            controlador.mostrarMenuPrincipal();
-//        }
-//
-//        System.out.println("Introduzca el email del cliente");
-//        emailCliente = getString();
-//
-//        // comprobar si el cliente existe
-//        try {
-//             clienteExiste = controlador.comprobarClienteExiste(emailCliente);
-//             if (!clienteExiste) {
-//                 throw new ClienteNoExisteException("Este cliente no existe");
-//             }
-//        } catch (ClienteNoExisteException e) {
-//            // si el cliente no existe, informamos al usuario y velvolemos una lista vacia
-//            System.err.println(e);
-//            controlador.mostrarMenuPrincipal();
-//        }
-//
-//        //si el cliente y el articulo existen, procedemos a crear el pedido
-//        System.out.println("Introduzca la cantidad de articulos");
-//        cantidad = getInt();
-//
-//        parametros.add(codArticulo);
-//        parametros.add(emailCliente);
-//        parametros.add(cantidad);
-//        parametros.add(fecha);
-//        parametros.add(procesado);
+    public String printAgregarPedido() {
+        String codArticulo = "";
+        System.out.println("\nIntroduzca la informacion del pedido: ");
+        System.out.println("--------------------------------------");
+        // pedir por el input mientras el codigo este vacio
+        do {
+            System.out.println("Introduzca el articulo");
+            codArticulo = getString();
+        } while (codArticulo.isEmpty());
 
-        return parametros;
+        return codArticulo;
     }
 
-    public static void pedidoCreado(Boolean creado) {
+    // recibir el cliente para el pedido
+    public String printGetClientePedido() {
+        String email = "";
+        do {
+            System.out.println("Introduzca el email del cliente");
+            email = getString();
+        } while (email.isEmpty());
+
+        return email;
+    }
+
+    // recibir la cantidad para el pedido
+    public int printGetCantidadPedido() {
+        int cantidad = 0;
+        do {
+            System.out.println("Introduzca la cantidad de articulos");
+            cantidad = getInt();
+        } while (cantidad == 0);
+        return cantidad;
+    }
+
+    public void pedidoCreado(Boolean creado) {
         if (creado) {
             System.out.println("Se ha creado el pedido");
         } else {
-            System.err.println("Ha habido un error al crear el cliente");
+            System.err.println("Ha habido un error al crear el pedido");
         }
     }
+
 
     // Sub menu para eliminar un pedido
     public int printEliminarPedido() throws Exception {
         int numPedido = 0;
-//        boolean existe;
-//        System.out.println("Introduzca el numero de pedido a borrar");
-//        numPedido = getInt();
-//        try {
-//            existe = Controlador.pedidoExiste(numPedido);
-//            if (!existe) {
-//                throw new PedidoNoExisteException("Ese pedido no existe, compruebe el numero");
-//            }
-//        } catch (PedidoNoExisteException e){
-//            System.err.println(e);
-//            controlador.mostrarMenuPrincipal();
-//        }
+        // Pedir el numero del pedido
+        System.out.println("Introduzca el numero de pedido a borrar");
+        numPedido = getInt();
+
         return numPedido;
     }
 
-    public static void pedidoEliminado(boolean eliminado) {
+    public void pedidoEliminado(boolean eliminado) {
         if (eliminado) {
             System.out.println("se ha eliminado el pedido exitosamente");
         } else {
@@ -260,7 +235,7 @@ public class GestionOS {
     }
 
     // Sub menu para mostrar pedidos por enviar
-    public static void printMostrarPedidosPendientes(List lista) {
+    public void printMostrarPedidosPendientes(List lista) {
         System.out.println("Mostrando pedidos pendientes de envio");
         System.out.println("-------------------------------------");
         for (Object o : lista) {
@@ -270,7 +245,7 @@ public class GestionOS {
     }
 
     // Sub menu para mostrar los pedidos enviados
-    public static void printMostrarPedidosEnviados(List lista) {
+    public void printMostrarPedidosEnviados(List lista) {
         System.out.println("Mostrando pedidos enviados");
         System.out.println("-------------------------------------");
         for (Object o : lista) {

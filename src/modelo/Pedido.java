@@ -2,6 +2,7 @@ package modelo;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static java.lang.Math.floor;
 
@@ -11,11 +12,13 @@ public class Pedido {
     private Articulo articulo;
     private Cliente cliente;
     private int cantidad;
-    private LocalDate fecha;
+    private java.sql.Timestamp fecha;
     private boolean procesado;
 
+    // Constructor
+    public Pedido(){};
     public Pedido(int numeroDePedido, Articulo articulo, Cliente cliente,
-                  int cantidad, LocalDate fecha, boolean procesado) {
+                  int cantidad, java.sql.Timestamp fecha, boolean procesado) {
         this.articulo = articulo;
         this.cliente = cliente;
         this.numeroDePedido = numeroDePedido;
@@ -35,7 +38,7 @@ public class Pedido {
         this.numeroDePedido = numeroDePedido;
     }
 
-    public Articulo getArticulos() {
+    public Articulo getArticulo() {
         return articulo;
     }
 
@@ -59,11 +62,11 @@ public class Pedido {
         this.cantidad = cantidad;
     }
 
-    public LocalDate getFecha() {
+    public java.sql.Timestamp getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDate fecha) {
+    public void setFecha(java.sql.Timestamp fecha) {
         this.fecha = fecha;
     }
 
@@ -76,21 +79,13 @@ public class Pedido {
 
     // Metodos de clase
 
-    // recibir el untimo numero de pedido
-    public static int recibirNumeroPedido() {
-        int numeroUltimoPedido = 0;
-        ArrayList<Pedido> pedido = ListaPedidos.getPedidos();
-        // Accede a los pedidos, en la ultima posicion, y recibe el numero de esa reserva
-        numeroUltimoPedido = (pedido.get(pedido.size() - 1).getNumeroDePedido()) + 1;
-        return numeroUltimoPedido;
-    }
     // Comprobar si el pedido esta procesado
-    // pedido procesado y pedido enviado no es lo mismo?
     public boolean isProcesado() {
         return procesado;
     }
 
 
+    // Comprobar si el pedido ha sido enviado
     public String pedidoEnviado() {
         if(this.procesado){
             return "si";

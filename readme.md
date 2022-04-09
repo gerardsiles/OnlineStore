@@ -161,7 +161,7 @@ CREATE TABLE clientes (
 );
  
 CREATE TABLE pedidos(
-  numero_pedido INT NOT NULL PRIMARY KEY,
+  numero_pedido INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   email_cliente VARCHAR(50) NOT NULL,
   codigo_articulo VARCHAR(10) NOT NULL,
   cantidad INT NOT NULL,

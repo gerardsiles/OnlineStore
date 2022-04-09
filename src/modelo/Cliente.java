@@ -50,16 +50,6 @@ public abstract class Cliente {
         this.descuento = descuento;
     }
 
-    public static boolean clienteExiste(String email) {
-        boolean existe = false;
-        for (Cliente cliente : ListaClientes.getClientes()) {
-            if (cliente.getEmail().equals(email)) {
-                existe = true;
-            }
-        }
-        return existe;
-    }
-
     public abstract boolean tipoDeCliente (String email); //  implemented in override in childs
 
     public abstract double cuotaAnual(); //  implemented in override in childs

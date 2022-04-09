@@ -38,7 +38,7 @@ public class ArticuloDAOImpl extends ConexionMysql implements ArticuloDao {
         try (PreparedStatement psmt = con.prepareStatement(SQL_GET_ALL_PRODUCTS)) {
             try(ResultSet rs = psmt.executeQuery()) {
                 // iniciar loop para todos los resultados
-                if (rs.next()) {
+                while (rs.next()) {
                     Articulo articulo = new Articulo();
                     articulo.setCodigoProducto(rs.getString(1));
                     articulo.setDescripcion(rs.getString(2));
