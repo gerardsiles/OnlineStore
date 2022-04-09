@@ -176,8 +176,8 @@ ALTER TABLE pedidos ADD CONSTRAINT fk_codigo_articulo FOREIGN KEY (codigo_articu
 
 Para empezar con esta parte, hemos creado la base de datos de mysql, y hemos adaptado el codigo para que los tipos de datos que se envian des de Java a Mysql sean los mismos.
 
-Luego, hemos creado la conexion a MySQL, hemos ido adaptando todas las funciones que se encargaban de agregar o listar informacion, para que en lugar de agregarlo a los arreglos, lo agregara a la base de datos
-
+Luego, hemos creado la conexion a MySQL en la clase conexionMYSQL, hemos ido adaptando todas las funciones que se encargaban de agregar o listar informacion, para que en lugar de agregarlo a los arreglos, lo agregara a la base de datos.
+Podemos ver un ejemplo con el cliente:
 ```java
 // Ejemplo del refactoring
 // Metodo para agregar a un cliente
@@ -223,6 +223,10 @@ ClienteService: La capa del modelo que se encarga de la logica de negocio, recib
 hemos mantenido el paquede Datos como el servicio general de todos los DAO.
 ClienteServlet: Seria la capa de presentacion generando enrutados web, en nuestro caso es una aplicacion de escritorio y solo cargaremos vistas, no endpoints. Utilizaremos el controlador para crear esas vistas.
 
+El modelo (en este caso, hemos mantenido la capa de datos como la unica clase para interactuar con el controlador),
+se encarga de llamar a las diferentes implementaciones de los DAO para que ejecuten su logica. De esta manera, hacemos
+independiente el hecho de que tipo de base de datos utilizamos, solo cambiariamos el metodo al que llamamos.
+
 Se puede ver la implementacion en el proyecto.
 
   - Con el objeto de conseguir la independencia del almacén de datos se usará el patrón Factory para instanciar los DAOs. 
@@ -246,9 +250,90 @@ Este codigo nos direccionaria a las diferentes bases de datos que tuvieramos. En
 con MySQL, asi que realmente no nos afecta.
 
   - Utilizar el SGBD MySQL para realizar la persistencia. 
+
+Hemos utilizado MySQL workbench para crear la base de datos y sus tablas, y toda la implementacion esta hecha en MySQL.
+
   - Utilizar una clase utilidad para controlar las conexiones a la Base de datos. 
+
+La conexion con la base de datos se encuentra en la clase ConexionMysql.java, una clase que se encarga unicamente de 
+controlar la conexion con la base de datos.
+
   - Utilizar JDBC de forma adecuara para evitar los ataques SQL Injection. 
   
+Hemos implementado el codigo con PreparedStatement combinado con los valores ? para evitar las inyecciones
+Mysql introducidas por los usuarios:
+
+```sql
+' OR '1'='1' --
+' OR '1'='1' {
+' OR '1'='1' /* 
+```
+
+Al combinar las sentencias con los campos ?, con el setString por ejemplo, evitamos que los usuarios puedan introducir 
+esos comandos:
+
+```java
+    private final static String SQL_CREATE_PEDIDO = "INSERT INTO pedidos(email_cliente, codigo_articulo," +
+        " cantidad, fecha, procesado) VALUES(?,?,?,?,?)";
+@Override
+public boolean addPedido(Pedido pedido) {
+        try {
+        // preparar el statement
+        PreparedStatement pstm = con.prepareStatement(SQL_CREATE_PEDIDO);
+        // Dar los valores a los campos
+        pstm.setObject(1, pedido.getCliente().getEmail());
+        pstm.setString(2, pedido.getArticulo().getCodigoProducto());
+        pstm.setInt(3, pedido.getCantidad());
+        pstm.setTimestamp(4, pedido.getFecha());
+        pstm.setBoolean(5, pedido.getProcesado());
+        // Ejecutamos el prepared statement
+        pstm.executeUpdate();
+        return true;
+        } catch (SQLException ex) {
+        System.err.println(ex);
+        return false;
+        }
+
+        }
+```
   - Aplicar transacciones y procedimientos almacenados en todas las operaciones DML que así lo requieran.
 
+Las operaciones DML (data modification language) estan implementadas en als clasded de DAOImpl (cliente, articulo y pedido), 
+alli nos encontramos con sus sentencias almacenadas en strings para ser llamadas cuando sean necesarias:
+
+```java
+    private final static String SQL_CREATE_PRODUCT = "INSERT INTO articulos(codigo, descripcion, pvp, gastos_envio, tiempo_preparacion) VALUES (?, ?, ?, ?, ?)";
+    private final static String SQL_GET_PRODUCT_ID = "SELECT * FROM articulos WHERE codigo = ?";
+    private final static String SQL_GET_ALL_PRODUCTS = "SELECT * FROM articulos";
+```
+ luego cuando son llamadas ( en este caso, las de articulos) los valores "?" son cambiados por
+el valor necesario en ese momento:
+
+```java
+    public List getArticulos() {
+        // Declarar lista para guardar los articulos
+        List<Articulo> list = new ArrayList<>();
+        // preparar el mysql statement
+        try (PreparedStatement psmt = con.prepareStatement(SQL_GET_ALL_PRODUCTS)) {
+            try(ResultSet rs = psmt.executeQuery()) {
+                // iniciar loop para todos los resultados
+                while (rs.next()) {
+                    Articulo articulo = new Articulo();
+                    articulo.setCodigoProducto(rs.getString(1));
+                    articulo.setDescripcion(rs.getString(2));
+                    articulo.setPvp(rs.getDouble(3));
+                    articulo.setGastosDeEnvio(rs.getDouble(4));
+                    articulo.setTiempoDePreparacion(rs.getInt(5));
+
+                    // Una vez adquiridos todos los campos, agregar la informacion a la lista
+                    list.add(articulo);
+                }
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+        //
+        return list;
+    }
+```
 
