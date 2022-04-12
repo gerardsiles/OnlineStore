@@ -1,9 +1,7 @@
 package vista;
 
-import controlador.ArticuloNoExisteException;
-import controlador.Controlador;
+import modelo.Articulo;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -34,7 +32,7 @@ public class GestionOS {
         return getInput(2);
     }
 
-    public List printAgregarArticulo() {
+    public List<Object> printAgregarArticulo() {
         String codigo, descripcion;
         double pvp, envio;
         int tiempo;
@@ -67,7 +65,7 @@ public class GestionOS {
         }
     }
 
-    public void printMostrarArticulos(List lista) {
+    public void printMostrarArticulos(List<Articulo> lista) {
         System.out.println("Lista de articulos");
         System.out.println("---------------------");
 
@@ -93,7 +91,7 @@ public class GestionOS {
     public List printAgregarCliente() {
         int tipoDeCliente;
         String nombre, domicilio, nif, email;
-        List parametros = new ArrayList<>();
+        List<Object> parametros = new ArrayList<>();
 
 
         System.out.println("Introduzca que tipo  de cliente quiere crear");
@@ -132,8 +130,8 @@ public class GestionOS {
         System.out.println("Lista de clientes");
         System.out.println("---------------------");
 
-        for (int i = 0; i < lista.size(); i++) {
-            System.out.println(lista.get(i));
+        for (Object o : lista) {
+            System.out.println(o);
             System.out.println("---------------------");
         }
     }
@@ -143,8 +141,8 @@ public class GestionOS {
         System.out.println("Lista de clientes Estandard");
         System.out.println("---------------------");
 
-        for (int i = 0; i < lista.size(); i++) {
-            System.out.println(lista.get(i));
+        for (Object o : lista) {
+            System.out.println(o);
             System.out.println("---------------------");
         }
     }
@@ -154,8 +152,8 @@ public class GestionOS {
         System.out.println("Lista de clientes Premium");
         System.out.println("---------------------");
 
-        for (int i = 0; i < lista.size(); i++) {
-            System.out.println(lista.get(i));
+        for (Object o : lista) {
+            System.out.println(o);
             System.out.println("---------------------");
         }
     }
@@ -174,7 +172,7 @@ public class GestionOS {
 
     // Sub menu para agregar un pedido
     public String printAgregarPedido() {
-        String codArticulo = "";
+        String codArticulo;
         System.out.println("\nIntroduzca la informacion del pedido: ");
         System.out.println("--------------------------------------");
         // pedir por el input mientras el codigo este vacio
@@ -188,7 +186,7 @@ public class GestionOS {
 
     // recibir el cliente para el pedido
     public String printGetClientePedido() {
-        String email = "";
+        String email;
         do {
             System.out.println("Introduzca el email del cliente");
             email = getString();
@@ -199,7 +197,7 @@ public class GestionOS {
 
     // recibir la cantidad para el pedido
     public int printGetCantidadPedido() {
-        int cantidad = 0;
+        int cantidad;
         do {
             System.out.println("Introduzca la cantidad de articulos");
             cantidad = getInt();
@@ -217,8 +215,8 @@ public class GestionOS {
 
 
     // Sub menu para eliminar un pedido
-    public int printEliminarPedido() throws Exception {
-        int numPedido = 0;
+    public int printEliminarPedido() {
+        int numPedido;
         // Pedir el numero del pedido
         System.out.println("Introduzca el numero de pedido a borrar");
         numPedido = getInt();
@@ -275,8 +273,7 @@ public class GestionOS {
     public static String getString() {
         Scanner scanner = new Scanner(System.in);
         // try catch error
-        String string = scanner.nextLine();
-        return string;
+        return scanner.nextLine();
     }
 
     // metodo para recibir un input en forma de int
@@ -286,7 +283,7 @@ public class GestionOS {
         try {
             numero = Integer.parseInt(scanner.nextLine());
         } catch (Exception e){
-            System.err.println(e);
+            e.printStackTrace();
         }
         return numero;
     }
@@ -298,7 +295,7 @@ public class GestionOS {
         try {
         numero = Double.parseDouble(scanner.nextLine());
         } catch (Exception e){
-            System.err.println(e);
+            e.printStackTrace();
     }
         return numero;
     }

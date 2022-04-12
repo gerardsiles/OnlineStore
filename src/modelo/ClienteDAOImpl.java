@@ -15,7 +15,7 @@ public class ClienteDAOImpl extends ConexionMysql implements ClienteDAO {
     @Override
     public List<Cliente> getClientes() {
         // declaramos una nueva lista
-        Cliente cliente = null;
+        Cliente cliente;
         List<Cliente> list = new ArrayList<>();
         // preparamos el sql statement
         try(PreparedStatement pstm = con.prepareStatement(SQL_GET_CLIENTES);
@@ -51,7 +51,7 @@ public class ClienteDAOImpl extends ConexionMysql implements ClienteDAO {
                 }
             }
         } catch (SQLException ex) {
-            System.err.println(ex);
+            ex.printStackTrace();
         }
         return list;
     }
@@ -59,7 +59,7 @@ public class ClienteDAOImpl extends ConexionMysql implements ClienteDAO {
     @Override
     public Cliente getClienteByEmail(String email) {
         Cliente cliente = null;
-        try (PreparedStatement pstm = con.prepareStatement(SQL_GET_CLIENTE);){
+        try (PreparedStatement pstm = con.prepareStatement(SQL_GET_CLIENTE)){
             // declaramos que el email esta en la posicion 1
             pstm.setString(1, email);
             // intentamos lanzar la query
@@ -94,7 +94,7 @@ public class ClienteDAOImpl extends ConexionMysql implements ClienteDAO {
                 }
             }
         } catch (SQLException ex) {
-            System.err.println(ex);
+            ex.printStackTrace();
         }
         return cliente;
     }
@@ -115,8 +115,8 @@ public class ClienteDAOImpl extends ConexionMysql implements ClienteDAO {
             pstm.executeUpdate();
             return true;
 
-        } catch (SQLException e) { //  si ocurre una excepcion
-            System.err.println(e);
+        } catch (SQLException ex) { //  si ocurre una excepcion
+            ex.printStackTrace();
             return false;
         }
     }
@@ -136,7 +136,7 @@ public class ClienteDAOImpl extends ConexionMysql implements ClienteDAO {
                 }
             }
         } catch (SQLException ex) {
-            System.err.println(ex);
+            ex.printStackTrace();
         }
         return existe;
     }
@@ -144,7 +144,7 @@ public class ClienteDAOImpl extends ConexionMysql implements ClienteDAO {
     @Override
     public List<Cliente> listarClientesEstandard() {
     // declaramos una nueva lista
-        Cliente cliente = null;
+        Cliente cliente;
         List<Cliente> list = new ArrayList<>();
         // preparamos el sql statement
         try(PreparedStatement pstm = con.prepareStatement(SQL_GET_CLIENTES);
@@ -168,7 +168,7 @@ public class ClienteDAOImpl extends ConexionMysql implements ClienteDAO {
                 }
             }
         } catch (SQLException ex) {
-            System.err.println(ex);
+            ex.printStackTrace();
         }
         return list;
     }
@@ -177,7 +177,7 @@ public class ClienteDAOImpl extends ConexionMysql implements ClienteDAO {
     @Override
     public List<Cliente> listarClientesPremium() {
         // declaramos una nueva lista
-        Cliente cliente = null;
+        Cliente cliente;
         List<Cliente> list = new ArrayList<>();
         // preparamos el sql statement
         try(PreparedStatement pstm = con.prepareStatement(SQL_GET_CLIENTES);
@@ -201,9 +201,10 @@ public class ClienteDAOImpl extends ConexionMysql implements ClienteDAO {
                 }
             }
         } catch (SQLException ex) {
-            System.err.println(ex);
+            ex.printStackTrace();
         }
         return list;
     }
+
 }
 

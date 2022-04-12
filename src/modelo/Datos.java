@@ -1,19 +1,15 @@
 package modelo;
 
 
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
 
 public class Datos {
     // Instanciar las implementaciones del DAO
-    private ClienteDAOImpl cliente = new ClienteDAOImpl();
-    private ArticuloDAOImpl articulo = new ArticuloDAOImpl();
-    private PedidoDAOImpl pedido = new PedidoDAOImpl();
+    private final ClienteDAOImpl cliente = new ClienteDAOImpl();
+    private final ArticuloDAOImpl articulo = new ArticuloDAOImpl();
+    private final PedidoDAOImpl pedido = new PedidoDAOImpl();
 
     // constructor
     public Datos() {
@@ -38,13 +34,11 @@ public class Datos {
 
     // Comprobar si el articulo existe en la base de datos
     public boolean articuloExiste(String codArticulo) {
-        boolean existe = articulo.articuloExiste(codArticulo);
-        return existe;
+        return articulo.articuloExiste(codArticulo);
     }
 
-    public List listarArticulos() {
-        List lista = articulo.getArticulos();
-        return lista;
+    public List<Articulo> listarArticulos() {
+        return articulo.getArticulos();
     }
     // FIN GESTION ARTICULOS
 
@@ -74,32 +68,28 @@ public class Datos {
         return clienteCreado;
     }
 
-    public List recibirDatosClientes() {
-        List lista = cliente.getClientes();
-        return lista;
+    public List<Cliente> recibirDatosClientes() {
+        return cliente.getClientes();
     }
 
-    public List recibirDatosClientesEstandard() {
-        List lista = cliente.listarClientesEstandard();
-        return lista;
+    public List<Cliente> recibirDatosClientesEstandard() {
+        return cliente.listarClientesEstandard();
     }
 
-    public List recibirDatosClientesPremium() {
-        List lista = cliente.listarClientesPremium();
-        return lista;
+    public List<Cliente> recibirDatosClientesPremium() {
+        return cliente.listarClientesPremium();
     }
 
     // FIN GESTION CLIENTES
 
     // GESTION PEDIDOS
-    public boolean crearDatosPedido(List parametros) {
+    public boolean crearDatosPedido(List<Object> parametros) {
         boolean existe;
         Pedido nuevoPedido = new Pedido();
         Articulo articuloPedido = articulo.getArticuloByID((String)parametros.get(0));
         Cliente clientePedido = cliente.getClienteByEmail((String)parametros.get(1));
 
         // Declarar la fecha
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         java.sql.Timestamp dateSQL = new java.sql.Timestamp(date.getTime());
         // Set valores del pedido
@@ -117,34 +107,29 @@ public class Datos {
     }
 
     public Pedido getPedido(int numPedido) {
-        Pedido pedidoADevolver = pedido.getPedido(numPedido);
-        return pedidoADevolver;
+        return pedido.getPedido(numPedido);
     }
 
 
 
     // metodo para eliminar un pedido existente
     public boolean eliminarPedido(int numPedido) {
-        boolean eliminado = false;
-        eliminado = pedido.eliminarPedido(numPedido);
-        return eliminado;
+        return pedido.eliminarPedido(numPedido);
     }
 
-    public List recibirDatosPedidosPendientes() {
+    public List<Pedido> recibirDatosPedidosPendientes() {
         // actualizar los pedidos si se han enviado
         pedido.actualizarPedidos();
         // recibir todos los pedidos WHERE enviado == FALSE
-        List lista = pedido.getPedidosPendientes();
-        // enviar arraylist a controlador
-        return lista;
+        return pedido.getPedidosPendientes();
     }
 
-    public List recibirDatosPedidosEnviados() {
+    public List<Pedido> recibirDatosPedidosEnviados() {
         // actualizar los pedidos
         pedido.actualizarPedidos();
         // recibir todos los pedidos enviados
-        List lista = pedido.getPedidosEnviados();
-        return lista;
+        return pedido.getPedidosEnviados();
+
     }
     // FIN GESTION PEDIDOS
 }

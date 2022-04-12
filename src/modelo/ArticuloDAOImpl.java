@@ -25,13 +25,13 @@ public class ArticuloDAOImpl extends ConexionMysql implements ArticuloDao {
             pstm.executeUpdate();
             return true;
         } catch (SQLException ex) {
-            System.err.println(ex);
+            ex.printStackTrace();
             return false;
         }
     }
 
     @Override
-    public List getArticulos() {
+    public List<Articulo> getArticulos() {
         // Declarar lista para guardar los articulos
         List<Articulo> list = new ArrayList<>();
         // preparar el mysql statement
@@ -51,7 +51,7 @@ public class ArticuloDAOImpl extends ConexionMysql implements ArticuloDao {
                 }
             }
         } catch (SQLException ex) {
-            System.err.println(ex);
+            ex.printStackTrace();
         }
         //
         return list;
@@ -74,7 +74,7 @@ public class ArticuloDAOImpl extends ConexionMysql implements ArticuloDao {
                 }
             }
         } catch (SQLException ex) {
-            System.err.println(ex);
+            ex.printStackTrace();
         }
         return articulo;
     }
@@ -92,7 +92,7 @@ public class ArticuloDAOImpl extends ConexionMysql implements ArticuloDao {
                 }
             }
         } catch (SQLException ex) {
-            System.err.println(ex);
+            ex.printStackTrace();
         }
         return existe;
     }

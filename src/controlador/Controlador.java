@@ -1,6 +1,7 @@
 package controlador;
 
 // importar modelo
+import modelo.Articulo;
 import modelo.Datos;
 // importar vista
 import vista.GestionOS;
@@ -55,17 +56,13 @@ public class Controlador {
 
     public void agregarArticulo() {
         boolean creado = false;
-        List<Object> parametros = new ArrayList<>();
+        List parametros = new ArrayList<>();
         parametros = vista.printAgregarArticulo();
         // enviar informacion a Datos si la informacion no esta vacia
         if (!parametros.isEmpty()) {
             // Comprobar si el articulo existe antes de crearlo
             if (!modelo.articuloExiste(parametros.get(0).toString())){
                 creado = modelo.crearArticulo(parametros);
-            } else {
-                //todo
-                // trhow articuloExisteException
-                // print articulo ya existe
             }
         }
         vista.articuloCreado(creado);
@@ -73,7 +70,7 @@ public class Controlador {
 
     public void mostrarArticulos() {
         // Crear una array temporal para recibir articulos
-        List lista = new ArrayList<>();
+        List<Articulo> lista = new ArrayList<>();
         // Llenar la array con los articulos
         lista = modelo.listarArticulos();
         // Llamar a la vista para mostrar los articulos
@@ -99,9 +96,9 @@ public class Controlador {
 
     // metodo para agregar un cliente
     public void agregarCliente() {
-        boolean creado = false;
-        boolean existe = false;
-        List<Object> parametros;
+        boolean creado;
+        boolean existe;
+        List parametros;
         parametros = vista.printAgregarCliente();
 
         // comprobar que nos lleguen parametros de entrada
@@ -174,7 +171,7 @@ public class Controlador {
                 parametros.add(codigoArticulo);
             }
         } catch (ArticuloNoExisteException ex) { // manejar la excepcion
-            System.err.println(ex);
+            ex.printStackTrace();
             mostrarMenuPrincipal();
         }
 
@@ -189,7 +186,7 @@ public class Controlador {
                 parametros.add(emailCliente);
             }
         } catch (ClienteNoExisteException ex) {
-            System.err.println(ex);
+            ex.printStackTrace();
             mostrarMenuPrincipal();
         }
 
@@ -208,8 +205,8 @@ public class Controlador {
 
     // metodo para eliminar un pedido
     public void eliminarPedido() throws Exception {
-        int numPedido = 0;
-        boolean pedidoEliminado = false;
+        int numPedido;
+        boolean pedidoEliminado;
 
         // recibir el número del pedido a ser borrado
         numPedido = vista.printEliminarPedido();

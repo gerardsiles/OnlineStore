@@ -2,14 +2,13 @@ package modelo;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class PedidoDAOImpl extends ConexionMysql implements PedidoDAO{
     // crear una instancia de la conexion a la base de datos de MySQL
     private final Connection con = ConexionMysql.getConexion();
-    private ClienteDAOImpl cliente = new ClienteDAOImpl();
-    private ArticuloDAOImpl articulo = new ArticuloDAOImpl();
+    private final ClienteDAOImpl cliente = new ClienteDAOImpl();
+    private final ArticuloDAOImpl articulo = new ArticuloDAOImpl();
 
     // Preparar las sentencias de mysql
     private final static String SQL_CREATE_PEDIDO = "INSERT INTO pedidos(email_cliente, codigo_articulo, cantidad, fecha, procesado) VALUES(?,?,?,?,?)";
@@ -39,7 +38,7 @@ public class PedidoDAOImpl extends ConexionMysql implements PedidoDAO{
             pstm.executeUpdate();
             return true;
         } catch (SQLException ex) {
-            System.err.println(ex);
+            ex.printStackTrace();
             return false;
         }
 
@@ -47,8 +46,12 @@ public class PedidoDAOImpl extends ConexionMysql implements PedidoDAO{
 
     @Override
     public List<Pedido> getPedidos() {
-        List lista = new ArrayList();
-        try (PreparedStatement pstm = con.prepareStatement(SQL_SELECT_PEDIDOS)) {
+        return getPedidos(SQL_SELECT_PEDIDOS);
+    }
+
+    private List<Pedido> getPedidos(String sqlSelectPedidos) {
+        List<Pedido> lista = new ArrayList<>();
+        try (PreparedStatement pstm = con.prepareStatement(sqlSelectPedidos)) {
             try(ResultSet rs = pstm.executeQuery()) {
                 while(rs.next()) {
                     Pedido pedido = new Pedido();
@@ -63,7 +66,7 @@ public class PedidoDAOImpl extends ConexionMysql implements PedidoDAO{
                 }
             }
         } catch (SQLException ex) {
-            System.err.println(ex);
+            ex.printStackTrace();
         }
         return lista;
     }
@@ -71,13 +74,11 @@ public class PedidoDAOImpl extends ConexionMysql implements PedidoDAO{
     // comprueba la diferencia horaria entre el pedido y ahora y comprueba el tiempo de preparacion
     @Override
     public void actualizarPedidos() {
-        List<Pedido> lista = getPedidos();
-
         // recibir todos los pedidos
         for (Pedido pedido : getPedidos()) {
 
-            if (pedido.getProcesado() == false) {
-                // comprobar si el tiempo de preparacion se ha cumplido
+            if (!pedido.getProcesado()) {
+                /* comprobar si el tiempo de preparacion se ha cumplido */
                 Timestamp fechaActual = new Timestamp(System.currentTimeMillis());
                 Timestamp fechaPedido = pedido.getFecha();
                 long diferencia = fechaActual.getTime() - fechaPedido.getTime();
@@ -90,7 +91,7 @@ public class PedidoDAOImpl extends ConexionMysql implements PedidoDAO{
                         pstm.setInt(1,numeroPedido);
                         pstm.executeUpdate();
                     } catch (SQLException ex) {
-                        System.err.println(ex);
+                        ex.printStackTrace();
                     }
 
                 }
@@ -107,7 +108,7 @@ public class PedidoDAOImpl extends ConexionMysql implements PedidoDAO{
             pstm.executeUpdate();
             eliminado = true;
         } catch (SQLException ex) {
-            System.err.println(ex);
+            ex.printStackTrace();
             eliminado = false;
         }
 
@@ -115,52 +116,12 @@ public class PedidoDAOImpl extends ConexionMysql implements PedidoDAO{
     }
 
     @Override
-    public List getPedidosPendientes() {
-        List<Pedido> lista = new ArrayList<>();
-        // empezamos actualizando los pedidos
-        try (PreparedStatement pstm = con.prepareStatement(SQL_SELECT_PEDIDOS_PENDIENTES)) {
-            try(ResultSet rs = pstm.executeQuery()) {
-                while(rs.next()) {
-                    Pedido pedido = new Pedido();
-                    pedido.setNumeroDePedido(rs.getInt(1));
-                    pedido.setCliente(cliente.getClienteByEmail(rs.getString(2)));
-                    pedido.setArticulo(articulo.getArticuloByID(rs.getString(3)));
-                    pedido.setCantidad(rs.getInt(4));
-                    pedido.setFecha(rs.getTimestamp(5));
-                    pedido.setProcesado(rs.getBoolean(6));
-
-                    lista.add(pedido);
-                }
-            }
-        } catch (SQLException ex) {
-            System.err.println(ex);
-        }
-
-        return lista;
+    public List<Pedido> getPedidosPendientes() {
+        return getPedidos(SQL_SELECT_PEDIDOS_PENDIENTES);
     }
 
     @Override
-    public List getPedidosEnviados() {
-        List<Pedido> lista = new ArrayList<>();
-        // empezamos actualizando los pedidos
-        try (PreparedStatement pstm = con.prepareStatement(SQL_SELECT_PEDIDOS_ENVIADOS)) {
-            try(ResultSet rs = pstm.executeQuery()) {
-                while(rs.next()) {
-                    Pedido pedido = new Pedido();
-                    pedido.setNumeroDePedido(rs.getInt(1));
-                    pedido.setCliente(cliente.getClienteByEmail(rs.getString(2)));
-                    pedido.setArticulo(articulo.getArticuloByID(rs.getString(3)));
-                    pedido.setCantidad(rs.getInt(4));
-                    pedido.setFecha(rs.getTimestamp(5));
-                    pedido.setProcesado(rs.getBoolean(6));
-
-                    lista.add(pedido);
-                }
-            }
-        } catch (SQLException ex) {
-            System.err.println(ex);
-        }
-
-        return lista;
+    public List<Pedido> getPedidosEnviados() {
+        return getPedidos(SQL_SELECT_PEDIDOS_ENVIADOS);
     }
 }
