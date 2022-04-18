@@ -229,25 +229,16 @@ independiente el hecho de que tipo de base de datos utilizamos, solo cambiariamo
 
 Se puede ver la implementacion en el proyecto.
 
-  - Con el objeto de conseguir la independencia del almacén de datos se usará el patrón Factory para instanciar los DAOs. 
-Si tuvieramos bases de datos diferentes, necesitariamos el Factory para crear diferentes instancias del DAO para trabajar 
-con la informacion de cada una de ellas. Esto lo conseguimos con el siguiente codigo:
+  - Con el objeto de conseguir la independencia del almacén de datos se usará el patrón Factory para instanciar los DAOs. Creamos nuevas clases EntidadDaoFactory. Por ejemplo, se realizaría así la clase ArticuloDaoFactory y se implementaría en la clase Datos instanciando la clase ArticuloDaoFactory y luego invocando el constructor CrearArticuloDao acompañado de la función de ArticuloDaoImpl que necesitemos.
 
 ```java
-public class ObjectDAOFactory{
-
-    public static ObjectDAO getObjectDAO(String type){ 
-        if (type.equalsIgnoreCase("mysql")){
-            return new ObjectDAOMySQLImpl();
-        }else{
-            return new ObjectDAOMSSQLImpl();
-        }
+public class ArticuloDaoFactory{
+ public ArticuloDaoImpl CrearArticuloDao(String type){
+            return new ArticuloDaoImpl();
     }
+    
 }
 ```
-
-Este codigo nos direccionaria a las diferentes bases de datos que tuvieramos. En esta implementacion, solo trabajamos 
-con MySQL, asi que realmente no nos afecta.
 
   - Utilizar el SGBD MySQL para realizar la persistencia. 
 
